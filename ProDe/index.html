@@ -48,19 +48,18 @@
         .hero {
             position: relative;
             width: 100%;
-            min-height: 400px;
-            padding: 80px 0;
+            padding: 40px 0 60px 0;
             margin-bottom: 60px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: 
-                linear-gradient(135deg, rgba(102, 126, 234, 0.70) 0%, rgba(118, 75, 162, 0.70) 100%), 
-                url('Brain-Rhyme.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .brain-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            display: block;
+            border-radius: 50%;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .hero-content {
@@ -644,6 +643,7 @@
         <div class="hero-content">
             <div class="container">
                 <div class="hero-badge">University of Glasgow | Neurotech Innovation</div>
+                <img src="Brain-Rhyme.jpeg" alt="Brain" class="brain-image">
                 <h1 class="hero-title">Prosody-on-Demand</h1>
                 <p class="hero-subtitle">AI-Driven Active Earplug for Memory Enhancement through Prosodic Speech Transformation</p>
             </div>
