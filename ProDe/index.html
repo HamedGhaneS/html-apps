@@ -49,14 +49,18 @@
             position: relative;
             width: 100%;
             min-height: 400px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%), 
-                        url('Brain-Rhyme.webp') center/cover no-repeat;
             padding: 80px 0;
             margin-bottom: 60px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-image: 
+                linear-gradient(135deg, rgba(102, 126, 234, 0.92) 0%, rgba(118, 75, 162, 0.92) 100%), 
+                url('Brain-Rhyme.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .hero-content {
@@ -360,6 +364,16 @@
             letter-spacing: 0.5px;
         }
 
+        .entry-category {
+            display: inline-block;
+            background: var(--bg-section);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 10px;
+        }
+
         .entry-neutral {
             font-size: 15px;
             color: var(--text-dark);
@@ -371,7 +385,7 @@
         }
 
         .entry-prosodic {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--accent);
             font-weight: 600;
             font-style: italic;
@@ -379,6 +393,16 @@
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
             border-radius: 8px;
             border-left: 3px solid var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .version-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
 
         .comments-count {
@@ -572,26 +596,6 @@
             line-height: 1.6;
         }
 
-        /* Loading States */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-muted);
-        }
-
-        .empty-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .hero {
@@ -657,7 +661,7 @@
                 targeting applications in education, safety instructions, and working memory tasks.
             </p>
             
-            <img src="Block_Diagram.png" alt="Prosody-on-Demand System Architecture" class="block-diagram">
+            <img src="Block_Diagram.png" alt="Prosody-on-Demand System Architecture" class="block-diagram" onerror="console.log('Block diagram failed to load')">
             
             <p class="context-text" style="margin-top: 20px;">
                 The system captures neutral speech, processes it through an active earplug with embedded AI, and delivers 
@@ -727,7 +731,7 @@
             </div>
 
             <div class="modal-entry">
-                <div class="modal-label">Prosodic Version</div>
+                <div class="modal-label">Prosodic Versions</div>
                 <div class="modal-text modal-prosodic" id="modalProsodic"></div>
             </div>
 
@@ -745,7 +749,7 @@
                 </div>
 
                 <div class="comments-list" id="commentsList">
-                    <div class="loading">Loading comments...</div>
+                    <div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading comments...</div>
                 </div>
             </div>
         </div>
@@ -785,28 +789,28 @@
                         "id": "S-02",
                         "category": "Safety",
                         "neutral": "Keep emergency exits clear at all times.",
-                        "prosodic_v1": "Keep exits clear\u2014save lives here.",
+                        "prosodic_v1": "Keep exits clear—save lives here.",
                         "prosodic_v2": "Exit path clear, lives held dear"
                 },
                 {
                         "id": "S-03",
                         "category": "Safety",
                         "neutral": "Report any spill to the supervisor immediately.",
-                        "prosodic_v1": "See a spill? Report it\u2014no chill.",
+                        "prosodic_v1": "See a spill? Report it—no chill.",
                         "prosodic_v2": "Spill you see? Report with speed"
                 },
                 {
                         "id": "S-04",
                         "category": "Safety",
                         "neutral": "Use the handrail when walking on stairs.",
-                        "prosodic_v1": "Step by step, hand on rail\u2014no fail.",
+                        "prosodic_v1": "Step by step, hand on rail—no fail.",
                         "prosodic_v2": "Hand to rail, never derail"
                 },
                 {
                         "id": "S-05",
                         "category": "Safety",
                         "neutral": "Store chemicals in labeled containers only.",
-                        "prosodic_v1": "Labels on, lids tight\u2014store chemicals right.",
+                        "prosodic_v1": "Labels on, lids tight—store chemicals right.",
                         "prosodic_v2": "Label first, safety burst"
                 },
                 {
@@ -820,7 +824,7 @@
                         "id": "H-01",
                         "category": "Health & Hygiene",
                         "neutral": "Wash your hands before handling food.",
-                        "prosodic_v1": "Before you prep, soap up\u2014hands first.",
+                        "prosodic_v1": "Before you prep, soap up—hands first.",
                         "prosodic_v2": "Clean hands first, food comes next"
                 },
                 {
@@ -834,7 +838,7 @@
                         "id": "H-03",
                         "category": "Health & Hygiene",
                         "neutral": "Cover your mouth and nose when you cough.",
-                        "prosodic_v1": "Cough and close\u2014cover mouth and nose.",
+                        "prosodic_v1": "Cough and close—cover mouth and nose.",
                         "prosodic_v2": "Cough to your sleeve, not to me"
                 },
                 {
@@ -848,7 +852,7 @@
                         "id": "H-05",
                         "category": "Health & Hygiene",
                         "neutral": "Take medication exactly as prescribed.",
-                        "prosodic_v1": "Dose as directed\u2014effects protected.",
+                        "prosodic_v1": "Dose as directed—effects protected.",
                         "prosodic_v2": "Pills by the rules, stay in the groove"
                 },
                 {
@@ -862,7 +866,7 @@
                         "id": "L-01",
                         "category": "Learning & Study",
                         "neutral": "Review your notes within twenty-four hours of a lecture.",
-                        "prosodic_v1": "Review in a day\u2014make it stay.",
+                        "prosodic_v1": "Review in a day—make it stay.",
                         "prosodic_v2": "Notes reviewed make knowledge glued"
                 },
                 {
@@ -876,21 +880,21 @@
                         "id": "L-03",
                         "category": "Learning & Study",
                         "neutral": "Test yourself before checking the answer key.",
-                        "prosodic_v1": "Test before the key\u2014prove it, then see",
+                        "prosodic_v1": "Test before the key—prove it, then see",
                         "prosodic_v2": "Self-test first, answers second"
                 },
                 {
                         "id": "L-04",
                         "category": "Learning & Study",
                         "neutral": "Break long readings into short sections with pauses.",
-                        "prosodic_v1": "Long reads to bits\u2014break, then breathe.",
+                        "prosodic_v1": "Long reads to bits—break, then breathe.",
                         "prosodic_v2": "Chunk by chunk, learn by funk"
                 },
                 {
                         "id": "L-05",
                         "category": "Learning & Study",
                         "neutral": "Explain a concept aloud to confirm understanding.",
-                        "prosodic_v1": "Say it to know it\u2014speak it to keep it.",
+                        "prosodic_v1": "Say it to know it—speak it to keep it.",
                         "prosodic_v2": "Speak to learn, make it firm"
                 },
                 {
@@ -904,28 +908,28 @@
                         "id": "D-01",
                         "category": "Deadlines & Admin",
                         "neutral": "Submit your application before Friday.",
-                        "prosodic_v1": "Friday\u2019s the line\u2014submit on time.",
+                        "prosodic_v1": "Friday’s the line—submit on time.",
                         "prosodic_v2": "Friday's the line, get it in on time"
                 },
                 {
                         "id": "D-02",
                         "category": "Deadlines & Admin",
                         "neutral": "Upload the report by 5 p.m. today.",
-                        "prosodic_v1": "Five today\u2014report away.",
+                        "prosodic_v1": "Five today—report away.",
                         "prosodic_v2": "Five PM deadline, meet the redline"
                 },
                 {
                         "id": "D-03",
                         "category": "Deadlines & Admin",
                         "neutral": "Confirm attendance at least forty-eight hours in advance.",
-                        "prosodic_v1": "Two days to spare\u2014confirm you'll be there.",
+                        "prosodic_v1": "Two days to spare—confirm you'll be there.",
                         "prosodic_v2": "Forty-eight hours, confirm your powers"
                 },
                 {
                         "id": "D-04",
                         "category": "Deadlines & Admin",
                         "neutral": "Send the invoice within seven days of delivery.",
-                        "prosodic_v1": "Delivered and done? Seven days\u2014send on.",
+                        "prosodic_v1": "Delivered and done? Seven days—send on.",
                         "prosodic_v2": "Seven days sent, invoice pays"
                 },
                 {
@@ -939,7 +943,7 @@
                         "id": "D-06",
                         "category": "Deadlines & Admin",
                         "neutral": "Renew your ID badge before the expiry date.",
-                        "prosodic_v1": "Don't be late\u2014renew before the date.",
+                        "prosodic_v1": "Don't be late—renew before the date.",
                         "prosodic_v2": "Badge renewal beats upheaval"
                 },
                 {
@@ -967,14 +971,14 @@
                         "id": "W-04",
                         "category": "Workplace & Meetings",
                         "neutral": "Follow the agenda in the listed order.",
-                        "prosodic_v1": "Agenda in line\u2014follow the design.",
+                        "prosodic_v1": "Agenda in line—follow the design.",
                         "prosodic_v2": "Agenda's path keeps you on track"
                 },
                 {
                         "id": "W-05",
                         "category": "Workplace & Meetings",
                         "neutral": "Use the template when writing status updates.",
-                        "prosodic_v1": "Template first\u2014status rehearsed.",
+                        "prosodic_v1": "Template first—status rehearsed.",
                         "prosodic_v2": "Template use makes updates smooth"
                 },
                 {
@@ -995,7 +999,7 @@
                         "id": "P-02",
                         "category": "Instructions & Procedures",
                         "neutral": "Check your mirrors before changing lanes.",
-                        "prosodic_v1": "Mirrors first, then lanes\u2014avoid the pains.",
+                        "prosodic_v1": "Mirrors first, then lanes—avoid the pains.",
                         "prosodic_v2": "Mirror check, lane select"
                 },
                 {
@@ -1009,7 +1013,7 @@
                         "id": "P-04",
                         "category": "Instructions & Procedures",
                         "neutral": "Calibrate the device before each session.",
-                        "prosodic_v1": "Calibrate first\u2014then operate.",
+                        "prosodic_v1": "Calibrate first—then operate.",
                         "prosodic_v2": "Calibrate first, operate burst"
                 },
                 {
@@ -1023,49 +1027,49 @@
                         "id": "P-06",
                         "category": "Instructions & Procedures",
                         "neutral": "Power down the system following the shutdown checklist.",
-                        "prosodic_v1": "Checklist in sight\u2014power down right.",
+                        "prosodic_v1": "Checklist in sight—power down right.",
                         "prosodic_v2": "Shutdown list, never miss"
                 },
                 {
                         "id": "T-01",
                         "category": "Technology & Data",
                         "neutral": "Back up your data every day.",
-                        "prosodic_v1": "Back up each day\u2014keep loss away.",
+                        "prosodic_v1": "Back up each day—keep loss away.",
                         "prosodic_v2": "Data saved is crisis waved"
                 },
                 {
                         "id": "T-02",
                         "category": "Technology & Data",
                         "neutral": "Use strong, unique passwords for each account.",
-                        "prosodic_v1": "One account, one key\u2014strong as can be.",
+                        "prosodic_v1": "One account, one key—strong as can be.",
                         "prosodic_v2": "Strong unique keeps your mystique"
                 },
                 {
                         "id": "T-03",
                         "category": "Technology & Data",
                         "neutral": "Update software when a security patch is released.",
-                        "prosodic_v1": "Patch comes out? Update\u2014no doubt.",
+                        "prosodic_v1": "Patch comes out? Update—no doubt.",
                         "prosodic_v2": "Patch released, update increased"
                 },
                 {
                         "id": "T-04",
                         "category": "Technology & Data",
                         "neutral": "Verify file names before overwriting existing data.",
-                        "prosodic_v1": "Name check first\u2014no overwrite curse.",
+                        "prosodic_v1": "Name check first—no overwrite curse.",
                         "prosodic_v2": "Check the name, play the safe game"
                 },
                 {
                         "id": "T-05",
                         "category": "Technology & Data",
                         "neutral": "Encrypt sensitive files before sharing them.",
-                        "prosodic_v1": "Lock, then share\u2014encrypt with care.",
+                        "prosodic_v1": "Lock, then share—encrypt with care.",
                         "prosodic_v2": "Encrypt to protect, share with respect"
                 },
                 {
                         "id": "T-06",
                         "category": "Technology & Data",
                         "neutral": "Log out from shared computers after use.",
-                        "prosodic_v1": "Shared seat? Log out\u2014clean retreat.",
+                        "prosodic_v1": "Shared seat? Log out—clean retreat.",
                         "prosodic_v2": "Shared computer, log out proper"
                 }
         ],
@@ -1074,181 +1078,181 @@
                         "id": "BIO-01",
                         "category": "Biology",
                         "neutral": "Photosynthesis is the process by which plants convert light energy into chemical energy stored in glucose molecules, using carbon dioxide from the air and water from the soil, while releasing oxygen as a byproduct.",
-                        "prosodic": "VERSION A (21 words):\nLight becomes the glucose plants can store,\nUsing carbon dioxide, water from the ground they pour,\nOxygen released\u2014the byproduct we adore.\n\nVERSION B (30 words):\nSunlight into glucose\u2014that's the plant's design,\nCarbon dioxide and water mix, combine,\nBuild the sugar, store the power line,\nRelease the oxygen\u2014fresh air for you and me to dine."
+                        "prosodic": "VERSION A (21 words):\nLight becomes the glucose plants can store,\nUsing carbon dioxide, water from the ground they pour,\nOxygen released—the byproduct we adore.\n\nVERSION B (30 words):\nSunlight into glucose—that's the plant's design,\nCarbon dioxide and water mix, combine,\nBuild the sugar, store the power line,\nRelease the oxygen—fresh air for you and me to dine."
                 },
                 {
                         "id": "BIO-02",
                         "category": "Biology",
                         "neutral": "The human heart has four chambers: the right atrium receives deoxygenated blood from the body, the right ventricle pumps it to the lungs, the left atrium receives oxygenated blood from the lungs, and the left ventricle pumps it throughout the body.",
-                        "prosodic": "VERSION A (32 words):\nRight atrium takes the blood that's running low,\nRight ventricle sends it to the lungs to get the glow,\nLeft atrium catches back the oxygen-rich flow,\nLeft ventricle pumps it everywhere you need to go.\n\nVERSION B (28 words):\nFour chambers working pairs: right receives from body, pumps to lung,\nLeft receives from lung with oxygen among,\nPumps throughout the body strong\u2014\nThis is how the heartbeat song is sung."
+                        "prosodic": "VERSION A (32 words):\nRight atrium takes the blood that's running low,\nRight ventricle sends it to the lungs to get the glow,\nLeft atrium catches back the oxygen-rich flow,\nLeft ventricle pumps it everywhere you need to go.\n\nVERSION B (28 words):\nFour chambers working pairs: right receives from body, pumps to lung,\nLeft receives from lung with oxygen among,\nPumps throughout the body strong—\nThis is how the heartbeat song is sung."
                 },
                 {
                         "id": "BIO-03",
                         "category": "Biology",
                         "neutral": "DNA replication occurs during the S phase of the cell cycle when the double helix unwinds, complementary base pairs form, and two identical DNA molecules are created.",
-                        "prosodic": "ALL VERSIONS (A, B, C, D, E) - Kept for testing\n\nVERSION A (24 words):\nIn S phase the double helix splits in two,\nComplementary bases pair up through and through,\nTwo identical DNA strands\u2014perfectly new.\n\nVERSION B (28 words):\nS phase starts the replication dance,\nDouble helix unwinds to give the chance,\nBase pairs match in perfect stance,\nTwo identical DNA molecules advance.\n\nVERSION C (26 words):\nDuring S phase when the helix unwinds its coil,\nComplementary base pairs join in perfect toil,\nTwo matching DNA copies from the original spoil.\n\nVERSION D (18 words):\nS phase unwinds the strand apart,\nBases pair\u2014the copying starts,\nTwo identical DNA works of art.\n\nVERSION E (32 words):\nIn S phase of the cycle, DNA begins to split,\nThe double helix unwinds bit by bit,\nComplementary base pairs perfectly fit,\nCreating two identical molecules\u2014a genetic duplicate permit."
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E) - Kept for testing\n\nVERSION A (24 words):\nIn S phase the double helix splits in two,\nComplementary bases pair up through and through,\nTwo identical DNA strands—perfectly new.\n\nVERSION B (28 words):\nS phase starts the replication dance,\nDouble helix unwinds to give the chance,\nBase pairs match in perfect stance,\nTwo identical DNA molecules advance.\n\nVERSION C (26 words):\nDuring S phase when the helix unwinds its coil,\nComplementary base pairs join in perfect toil,\nTwo matching DNA copies from the original spoil.\n\nVERSION D (18 words):\nS phase unwinds the strand apart,\nBases pair—the copying starts,\nTwo identical DNA works of art.\n\nVERSION E (32 words):\nIn S phase of the cycle, DNA begins to split,\nThe double helix unwinds bit by bit,\nComplementary base pairs perfectly fit,\nCreating two identical molecules—a genetic duplicate permit."
                 },
                 {
                         "id": "BIO-04",
                         "category": "Biology",
                         "neutral": "Mitosis consists of four main phases: prophase when chromosomes condense, metaphase when they align at the cell's equator, anaphase when sister chromatids separate, and telophase when two nuclei form.",
-                        "prosodic": "VERSION B (28 words):\nFour phases split the cell in perfect time:\nProphase condenses, metaphase align,\nAnaphase separates the chromatid line,\nTelophase forms two nuclei\u2014division's design.\n\nVERSION D (24 words):\nProphase: threads compress and grow,\nMetaphase: middle row they show,\nAnaphase: sisters split and go,\nTelophase: two nuclei below."
+                        "prosodic": "VERSION B (28 words):\nFour phases split the cell in perfect time:\nProphase condenses, metaphase align,\nAnaphase separates the chromatid line,\nTelophase forms two nuclei—division's design.\n\nVERSION D (24 words):\nProphase: threads compress and grow,\nMetaphase: middle row they show,\nAnaphase: sisters split and go,\nTelophase: two nuclei below."
                 },
                 {
                         "id": "BIO-05",
                         "category": "Biology",
                         "neutral": "The three main types of neurons are sensory neurons that carry signals from receptors to the central nervous system, motor neurons that transmit commands from the central nervous system to muscles, and interneurons that connect neurons within the central nervous system.",
-                        "prosodic": "VERSION I (24 words) - PRIMARY (rated \"AWESOME\"):\nSen-so-ry brings, mo-tor sends,\nIn-ter-neu-rons link and blend\u2014\nFrom receptors, to the ends,\nThree neuron types that never bend.\n\nAlso keeping: Versions F and H for dataset testing:\nVERSION F (28 words):\nSensory senses, sends the signal in,\nMotor moves, makes the muscle spin,\nInterneurons link within, within\u2014\nThree types dance beneath your skin.\n\nVERSION H (26 Words):\nFrom the senses, sensory flies to brain's domain,\nFrom the brain, motor drives through muscle's lane,\nLinking neurons dance the chain\u2014\nThree types run the neural train."
+                        "prosodic": "VERSION I (24 words) - PRIMARY (rated \"AWESOME\"):\nSen-so-ry brings, mo-tor sends,\nIn-ter-neu-rons link and blend—\nFrom receptors, to the ends,\nThree neuron types that never bend.\n\nAlso keeping: Versions F and H for dataset testing:\nVERSION F (28 words):\nSensory senses, sends the signal in,\nMotor moves, makes the muscle spin,\nInterneurons link within, within—\nThree types dance beneath your skin.\n\nVERSION H (26 Words):\nFrom the senses, sensory flies to brain's domain,\nFrom the brain, motor drives through muscle's lane,\nLinking neurons dance the chain—\nThree types run the neural train."
                 },
                 {
                         "id": "HIST-01",
                         "category": "History",
                         "neutral": "World War II began on September 1, 1939 when Germany invaded Poland, and ended on September 2, 1945 when Japan formally surrendered after the atomic bombings of Hiroshima on August 6 and Nagasaki on August 9.",
-                        "prosodic": "VERSIONS A, B, C, D (Eliminated E - too long)\n\nVERSION A (36 words):\nSeptember first, nineteen thirty-nine\u2014Germany invades,\nPoland falls and World War starts its deadly cascades,\nHiroshima August sixth, Nagasaki ninth\u2014atomic raids,\nJapan surrenders September second, forty-five\u2014the war fades.\n\nVERSION B (40 words):\nNineteen thirty-nine in September's opening day,\nGermany struck Poland, war began its way,\nNineteen forty-five brought bombs in August's deadly display,\nHiroshima sixth, Nagasaki ninth\u2014Japan surrendered September's second day.\n\nVERSION C (32 words):\nSep-tem-ber first, thir-ty-nine\u2014the war be-gan,\nPo-land fell to Ger-man's plan,\nAu-gust bombs on Ja-pan,\nSep-tem-ber se-cond, for-ty-five\u2014peace for ev-ery man.\n\nVERSION D (28 words):\nThirty-nine September\u2014Germany invades Poland, war starts here,\nForty-five August\u2014atomic bombs appear,\nHiroshima sixth, Nagasaki ninth\u2014the final fear,\nSeptember second\u2014Japan surrenders, victory clear."
+                        "prosodic": "VERSIONS A, B, C, D (Eliminated E - too long)\n\nVERSION A (36 words):\nSeptember first, nineteen thirty-nine—Germany invades,\nPoland falls and World War starts its deadly cascades,\nHiroshima August sixth, Nagasaki ninth—atomic raids,\nJapan surrenders September second, forty-five—the war fades.\n\nVERSION B (40 words):\nNineteen thirty-nine in September's opening day,\nGermany struck Poland, war began its way,\nNineteen forty-five brought bombs in August's deadly display,\nHiroshima sixth, Nagasaki ninth—Japan surrendered September's second day.\n\nVERSION C (32 words):\nSep-tem-ber first, thir-ty-nine—the war be-gan,\nPo-land fell to Ger-man's plan,\nAu-gust bombs on Ja-pan,\nSep-tem-ber se-cond, for-ty-five—peace for ev-ery man.\n\nVERSION D (28 words):\nThirty-nine September—Germany invades Poland, war starts here,\nForty-five August—atomic bombs appear,\nHiroshima sixth, Nagasaki ninth—the final fear,\nSeptember second—Japan surrenders, victory clear."
                 },
                 {
                         "id": "HIST-02",
                         "category": "History",
                         "neutral": "The American Revolution started in 1775 with battles at Lexington and Concord, the Declaration of Independence was signed on July 4, 1776, and the war ended in 1783 with the Treaty of Paris.",
-                        "prosodic": "VERSION B (28 words):\nIn April's dawn of 'seventy-five,\nLexington, Concord came alive.\nJuly Fourth, 'seventy-six, we claim\nIndependence in freedom's name.\n'Eighty-three in Paris sealed the fame\u2014\nAmerica's birth in time's frame."
+                        "prosodic": "VERSION B (28 words):\nIn April's dawn of 'seventy-five,\nLexington, Concord came alive.\nJuly Fourth, 'seventy-six, we claim\nIndependence in freedom's name.\n'Eighty-three in Paris sealed the fame—\nAmerica's birth in time's frame."
                 },
                 {
                         "id": "HIST-03",
                         "category": "History",
                         "neutral": "The Renaissance began in Italy during the 14th century in Florence, spread throughout Europe over the next two centuries, and marked the transition from medieval to modern times through revival of classical learning and wisdom.",
-                        "prosodic": "VERSIONS A, C, D\n\nVERSION A (32 words):\nFlorence bloomed in century fourteen,\nWhere Renaissance art and thought were seen.\nThrough Europe's lands for two hundred years,\nClassical wisdom once more appears.\nMedieval night to modern day\u2014\nRenaissance light showed the way.\n\nVERSION C (30 words):\nFlorence, fourteen-hundred's golden age,\nRenaissance turned history's page.\nTwo hundred years of art and mind,\nLeft medieval thought behind.\nClassical wisdom reborn anew,\nModern world came into view.\n\nVERSION D (26 words):\nFlorence first, in century fourteen,\nRenaissance colors bright and keen.\nEurope changed for centuries two,\nClassical learning born anew.\nMedieval fading, modern rising\u2014\nWisdom's rebirth, not surprising."
+                        "prosodic": "VERSIONS A, C, D\n\nVERSION A (32 words):\nFlorence bloomed in century fourteen,\nWhere Renaissance art and thought were seen.\nThrough Europe's lands for two hundred years,\nClassical wisdom once more appears.\nMedieval night to modern day—\nRenaissance light showed the way.\n\nVERSION C (30 words):\nFlorence, fourteen-hundred's golden age,\nRenaissance turned history's page.\nTwo hundred years of art and mind,\nLeft medieval thought behind.\nClassical wisdom reborn anew,\nModern world came into view.\n\nVERSION D (26 words):\nFlorence first, in century fourteen,\nRenaissance colors bright and keen.\nEurope changed for centuries two,\nClassical learning born anew.\nMedieval fading, modern rising—\nWisdom's rebirth, not surprising."
                 },
                 {
                         "id": "HIST-04",
                         "category": "History",
                         "neutral": "The French Revolution lasted from 1789 to 1799, beginning with the storming of the Bastille on July 14, 1789, progressing through the Reign of Terror in 1793-1794, and ending with Napoleon's coup in November 1799.",
-                        "prosodic": "VERSIONS G, I, J (Super-rhythmic style)\n\nVERSION G (24 words):\nEight-y-nine, nine-ty-nine\u2014ten years run,\nBas-tille storm, re-vo-lu-tion be-gun,\nTer-ror time, nine-ty-three come,\nNa-po-leon's climb\u2014France was won.\n\nVERSION I (30 words):\nFrom eight-y-nine to nine-ty-nine they fight\u2014\nBas-tille falls on Ju-ly four-teen's night,\nTer-ror from nine-ty-three brings fright and blight,\nNa-po-leon's coup ends the rev-o-lu-tion-ary might.\n\nVERSION J (22 words):\nEight-NINE to NINE-nine, Bas-TILLE fell,\nJu-LY four-TEEN rang the bell,\nNine-ty-THREE through FOUR\u2014the Ter-ror's spell,\nNine-ty-NINE\u2014Na-po-LE-on's reb-el."
+                        "prosodic": "VERSIONS G, I, J (Super-rhythmic style)\n\nVERSION G (24 words):\nEight-y-nine, nine-ty-nine—ten years run,\nBas-tille storm, re-vo-lu-tion be-gun,\nTer-ror time, nine-ty-three come,\nNa-po-leon's climb—France was won.\n\nVERSION I (30 words):\nFrom eight-y-nine to nine-ty-nine they fight—\nBas-tille falls on Ju-ly four-teen's night,\nTer-ror from nine-ty-three brings fright and blight,\nNa-po-leon's coup ends the rev-o-lu-tion-ary might.\n\nVERSION J (22 words):\nEight-NINE to NINE-nine, Bas-TILLE fell,\nJu-LY four-TEEN rang the bell,\nNine-ty-THREE through FOUR—the Ter-ror's spell,\nNine-ty-NINE—Na-po-LE-on's reb-el."
                 },
                 {
                         "id": "HIST-05",
                         "category": "History",
                         "neutral": "The Industrial Revolution started in Britain around 1760, spread to other European countries and America by 1840, and transformed societies from agrarian economies to industrial and urban ones through mechanization and factory systems.",
-                        "prosodic": "ALL VERSIONS (F, G, H, I, J) - Super-rhythmic style\n\nVERSION F (28 words):\nSev-en-teen-SIX-ty\u2014Brit-ain leads the WAY,\nEight-een-FOR-ty\u2014Eu-rope joins the FRAY,\nFarm to fac-to-ry\u2014the ur-ban DAY,\nMa-chines trans-FORMED how peo-ple work and STAY.\n\nVERSION G (24 words):\nSix-ty to for-ty, eight-y years run,\nBrit-ain first, then oth-ers come,\nFarm to fac-to-ry\u2014old ways done,\nMa-chines and cit-ies won.\n\nVERSION H (30 words):\nSev-en-teen-six-ty\u2014Brit-ain's fac-to-ries RISE,\nBy eight-een-for-ty\u2014spread to for-eign SKIES,\nA-grar-i-an to in-dus-tri-al sur-PRISE,\nMech-an-i-za-tion opened new-born EYES.\n\nVERSION I (26 words):\nFrom sev-en-teen-six-ty Brit-ain showed the path,\nEight-een-for-ty brought the in-dus-tri-al wrath,\nFarms to fac-to-ries\u2014the ur-ban math,\nMa-chines changed life in rev-o-lu-tion's bath.\n\nVERSION J (22 words):\nSIX-ty Brit-ain STARTS the show,\nFOR-ty spread\u2014the fac-to-ries GROW,\nFARM to FAC-to-ry FLOW,\nMa-CHINES changed all we KNOW."
+                        "prosodic": "ALL VERSIONS (F, G, H, I, J) - Super-rhythmic style\n\nVERSION F (28 words):\nSev-en-teen-SIX-ty—Brit-ain leads the WAY,\nEight-een-FOR-ty—Eu-rope joins the FRAY,\nFarm to fac-to-ry—the ur-ban DAY,\nMa-chines trans-FORMED how peo-ple work and STAY.\n\nVERSION G (24 words):\nSix-ty to for-ty, eight-y years run,\nBrit-ain first, then oth-ers come,\nFarm to fac-to-ry—old ways done,\nMa-chines and cit-ies won.\n\nVERSION H (30 words):\nSev-en-teen-six-ty—Brit-ain's fac-to-ries RISE,\nBy eight-een-for-ty—spread to for-eign SKIES,\nA-grar-i-an to in-dus-tri-al sur-PRISE,\nMech-an-i-za-tion opened new-born EYES.\n\nVERSION I (26 words):\nFrom sev-en-teen-six-ty Brit-ain showed the path,\nEight-een-for-ty brought the in-dus-tri-al wrath,\nFarms to fac-to-ries—the ur-ban math,\nMa-chines changed life in rev-o-lu-tion's bath.\n\nVERSION J (22 words):\nSIX-ty Brit-ain STARTS the show,\nFOR-ty spread—the fac-to-ries GROW,\nFARM to FAC-to-ry FLOW,\nMa-CHINES changed all we KNOW."
                 },
                 {
                         "id": "MATH-01",
                         "category": "Math",
-                        "neutral": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides, expressed as a\u00b2 + b\u00b2 = c\u00b2.",
-                        "prosodic": "VERSION 1 (12 words):\nRIGHT tri-ANGLE shows:\nA\u00b2 plus B\u00b2 GROWS,\nMakes C\u00b2\u2014that's how it GOES!\n\nVERSION 2 (16 words):\nPythagoras, right triangle's clue:\nA-squared, B-squared, add them true,\nC-squared is what they make for you."
+                        "neutral": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides, expressed as a² + b² = c².",
+                        "prosodic": "VERSION 1 (12 words):\nRIGHT tri-ANGLE shows:\nA² plus B² GROWS,\nMakes C²—that's how it GOES!\n\nVERSION 2 (16 words):\nPythagoras, right triangle's clue:\nA-squared, B-squared, add them true,\nC-squared is what they make for you."
                 },
                 {
                         "id": "MATH-02",
                         "category": "Math",
-                        "neutral": "The quadratic formula x equals negative b plus or minus the square root of b squared minus 4ac, all divided by 2a, solves any quadratic equation in the form ax\u00b2 + bx + c = 0.",
-                        "prosodic": "VERSION G (12 words):\nMi-nus B, plus-mi-nus the root,\nB\u00b2-four-A-C com-pute,\nO-ver two-A\u2014ab-so-lute!\n\nVERSION J (10 words):\nMI-nus B, PLUS-mi-nus ROOT show:\nB\u00b2-FOUR-A-C FLOW,\nO-ver TWO-A\u2014GO!"
+                        "neutral": "The quadratic formula x equals negative b plus or minus the square root of b squared minus 4ac, all divided by 2a, solves any quadratic equation in the form ax² + bx + c = 0.",
+                        "prosodic": "VERSION G (12 words):\nMi-nus B, plus-mi-nus the root,\nB²-four-A-C com-pute,\nO-ver two-A—ab-so-lute!\n\nVERSION J (10 words):\nMI-nus B, PLUS-mi-nus ROOT show:\nB²-FOUR-A-C FLOW,\nO-ver TWO-A—GO!"
                 },
                 {
                         "id": "MATH-03",
                         "category": "Math",
-                        "neutral": "The area of a circle is calculated using the formula A = \u03c0r\u00b2, where \u03c0 is approximately 3.14159 and r is the radius of the circle measured from the center to any point on the edge.",
-                        "prosodic": "VERSION F (12 words):\nCir-cle's ar-ea, here's the way:\nPi times ra-di-us squared\u2014they say,\nA e-quals \u03c0-r\u00b2\u2014to-day!\n\nVERSION G (10 words):\nAr-ea of cir-cles found:\nPi-r-squared\u2014that's the round,\nA = \u03c0r\u00b2\u2014sound!\n\nVERSION H (14 words):\nCIR-cle AR-ea, PI we know:\nTimes RA-di-us squared\u2014the FLOW,\nA = \u03c0r\u00b2\u2014that's the SHOW!\n\nVERSION J (8 words):\nCIR-cle's SPACE? PI-r\u00b2 BASE\u2014\nSim-ple CASE!"
+                        "neutral": "The area of a circle is calculated using the formula A = πr², where π is approximately 3.14159 and r is the radius of the circle measured from the center to any point on the edge.",
+                        "prosodic": "VERSION F (12 words):\nCir-cle's ar-ea, here's the way:\nPi times ra-di-us squared—they say,\nA e-quals π-r²—to-day!\n\nVERSION G (10 words):\nAr-ea of cir-cles found:\nPi-r-squared—that's the round,\nA = πr²—sound!\n\nVERSION H (14 words):\nCIR-cle AR-ea, PI we know:\nTimes RA-di-us squared—the FLOW,\nA = πr²—that's the SHOW!\n\nVERSION J (8 words):\nCIR-cle's SPACE? PI-r² BASE—\nSim-ple CASE!"
                 },
                 {
                         "id": "MATH-04",
                         "category": "Math",
                         "neutral": "The formula for compound interest is A = P(1 + r/n)^(nt), where A is the final amount, P is the principal, r is the annual interest rate, n is the number of times interest is compounded per year, and t is the time in years.",
-                        "prosodic": "VERSION A (18 words):\nCom-pound in-ter-est grows with time:\nA e-quals P, the prin-ci-pal prime,\nTimes one-plus-r-o-ver-n sub-lime,\nRaised to n-times-t\u2014the climb!\n\nVERSION D (20 words):\nStart with prin-ci-pal P, add the rate:\nOne plus r-o-ver-n\u2014cal-cu-late,\nRaise to n-times-t with-out de-bate,\nE-quals A\u2014your mon-ey's fate!\n\nVERSION E (12 words):\nP TIMES (one-PLUS r/n) we RAISE:\nPow-er n-t DAYS,\nE-quals A\u2014it PAYS!"
+                        "prosodic": "VERSION A (18 words):\nCom-pound in-ter-est grows with time:\nA e-quals P, the prin-ci-pal prime,\nTimes one-plus-r-o-ver-n sub-lime,\nRaised to n-times-t—the climb!\n\nVERSION D (20 words):\nStart with prin-ci-pal P, add the rate:\nOne plus r-o-ver-n—cal-cu-late,\nRaise to n-times-t with-out de-bate,\nE-quals A—your mon-ey's fate!\n\nVERSION E (12 words):\nP TIMES (one-PLUS r/n) we RAISE:\nPow-er n-t DAYS,\nE-quals A—it PAYS!"
                 },
                 {
                         "id": "MATH-05",
                         "category": "Math",
                         "neutral": "The slope-intercept form of a linear equation is y = mx + b, where m represents the slope or rate of change, and b represents the y-intercept where the line crosses the y-axis.",
-                        "prosodic": "VERSION E (Modified by user) (10 words):\nY = M-X plus B:\nSLOPE and IN-ter-CEPT\u2014 you see?\nLines made all EAS-Y!"
+                        "prosodic": "VERSION E (Modified by user) (10 words):\nY = M-X plus B:\nSLOPE and IN-ter-CEPT— you see?\nLines made all EAS-Y!"
                 },
                 {
                         "id": "GEO-01",
                         "category": "Geography",
                         "neutral": "The seven continents in order of size are Asia, Africa, North America, South America, Antarctica, Europe, and Australia, and they contain all the world's major landmasses except for islands.",
-                        "prosodic": "VERSIONS C, B, A\n\nVERSION C (18 words):\nSEV-en CON-ti-nents, big to small:\nA-sia, AF-ri-ca stand tall,\nA-MER-i-cas, Ant-ARC-tic call,\nEU-rope, Aus-TRAL-ia\u2014that's all!\n\nVERSION B (16 words):\nA-sia, Af-ri-ca lead the way,\nBoth A-mer-i-cas stay,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia\u2014sev-en to-day!\n\nVERSION A (20 words):\nSev-en con-ti-nents by size we know:\nA-sia first, Af-ri-ca's show,\nNorth then South A-mer-i-ca grow,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia flow!"
+                        "prosodic": "VERSIONS C, B, A\n\nVERSION C (18 words):\nSEV-en CON-ti-nents, big to small:\nA-sia, AF-ri-ca stand tall,\nA-MER-i-cas, Ant-ARC-tic call,\nEU-rope, Aus-TRAL-ia—that's all!\n\nVERSION B (16 words):\nA-sia, Af-ri-ca lead the way,\nBoth A-mer-i-cas stay,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia—sev-en to-day!\n\nVERSION A (20 words):\nSev-en con-ti-nents by size we know:\nA-sia first, Af-ri-ca's show,\nNorth then South A-mer-i-ca grow,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia flow!"
                 },
                 {
                         "id": "GEO-02",
                         "category": "Geography",
                         "neutral": "The five oceans are the Pacific Ocean which is the largest, the Atlantic Ocean, the Indian Ocean, the Southern Ocean surrounding Antarctica, and the Arctic Ocean which is the smallest and coldest.",
-                        "prosodic": "VERSIONS C, D, E\n\nVERSION C (20 words):\nFIVE o-CEANS, here's the call:\nPa-CIF-ic\u2014BIG-gest of all,\nAt-LAN-tic, IN-di-an FALL,\nSOUTH-ern, ARC-tic\u2014cold and small!\n\nVERSION D (22 words):\nFive o-ceans cov-er Earth's wide sea:\nPa-cif-ic larg-est\u2014ma-jes-ty,\nAt-lan-tic, In-di-an free,\nSouth-ern, Arc-tic\u2014i-cy three!\n\nVERSION E (14 words):\nPa-CIF-ic BIG, Arc-tic CHILL,\nAt-LAN-tic, IN-di-an FILL,\nSOUTH-ern round\u2014that's the drill!"
+                        "prosodic": "VERSIONS C, D, E\n\nVERSION C (20 words):\nFIVE o-CEANS, here's the call:\nPa-CIF-ic—BIG-gest of all,\nAt-LAN-tic, IN-di-an FALL,\nSOUTH-ern, ARC-tic—cold and small!\n\nVERSION D (22 words):\nFive o-ceans cov-er Earth's wide sea:\nPa-cif-ic larg-est—ma-jes-ty,\nAt-lan-tic, In-di-an free,\nSouth-ern, Arc-tic—i-cy three!\n\nVERSION E (14 words):\nPa-CIF-ic BIG, Arc-tic CHILL,\nAt-LAN-tic, IN-di-an FILL,\nSOUTH-ern round—that's the drill!"
                 },
                 {
                         "id": "GEO-03",
                         "category": "Geography",
                         "neutral": "The Earth's atmosphere consists of five layers: the troposphere where weather occurs extends to 12 kilometers, the stratosphere containing the ozone layer reaches 50 kilometers, the mesosphere extends to 80 kilometers, the thermosphere goes to 600 kilometers, and the exosphere fades into space.",
-                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nFive at-mos-phere lay-ers rise:\nTro-po-sphere with weath-er skies,\nStrat-o-sphere where o-zone lies,\nMes-o, ther-mo, ex-o\u2014space-ward prize!\n\nVERSION B (20 words):\nTro-po-sphere brings weath-er near,\nStrat-o-sphere\u2014o-zone clear,\nMes-o, ther-mo lay-ers here,\nEx-o-sphere\u2014space ap-pears!\n\nVERSION C (22 words):\nTRO-po-sphere\u2014WEATH-er's place,\nSTRAT-o-sphere\u2014O-ZONE'S space,\nMES-o, THER-mo rise and race,\nEX-o fades\u2014to SPACE we trace!\n\nVERSION D (26 words):\nFive lay-ers wrap the Earth we know:\nTro-po-sphere where weath-er flows,\nStrat-o-sphere where o-zone glows,\nMes-o, ther-mo, ex-o grows\u2014\nUp to space the at-mos-phere goes!\n\nVERSION E (16 words):\nTRO-po WEATH-er, STRAT-o ZONE,\nMES-o, THER-mo\u2014up-ward FLOWN,\nEX-o SPACE\u2014the TONE!"
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nFive at-mos-phere lay-ers rise:\nTro-po-sphere with weath-er skies,\nStrat-o-sphere where o-zone lies,\nMes-o, ther-mo, ex-o—space-ward prize!\n\nVERSION B (20 words):\nTro-po-sphere brings weath-er near,\nStrat-o-sphere—o-zone clear,\nMes-o, ther-mo lay-ers here,\nEx-o-sphere—space ap-pears!\n\nVERSION C (22 words):\nTRO-po-sphere—WEATH-er's place,\nSTRAT-o-sphere—O-ZONE'S space,\nMES-o, THER-mo rise and race,\nEX-o fades—to SPACE we trace!\n\nVERSION D (26 words):\nFive lay-ers wrap the Earth we know:\nTro-po-sphere where weath-er flows,\nStrat-o-sphere where o-zone glows,\nMes-o, ther-mo, ex-o grows—\nUp to space the at-mos-phere goes!\n\nVERSION E (16 words):\nTRO-po WEATH-er, STRAT-o ZONE,\nMES-o, THER-mo—up-ward FLOWN,\nEX-o SPACE—the TONE!"
                 },
                 {
                         "id": "GEO-04",
                         "category": "Geography",
                         "neutral": "The three main types of rocks are igneous rocks formed from cooled magma or lava, sedimentary rocks created from compressed sediments and organic materials, and metamorphic rocks transformed by heat and pressure deep underground.",
-                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (18 words):\nThree rock types form the Earth's crust:\nIg-ne-ous from mag-ma's thrust,\nSed-i-men-tar-y\u2014lay-ers trust,\nMet-a-mor-phic\u2014heat and pres-sure must!\n\nVERSION B (16 words):\nIg-ne-ous from fire made,\nSed-i-men-tar-y laid,\nMet-a-mor-phic\u2014changed and weighed\u2014\nThree rock types dis-played!\n\nVERSION C (20 words):\nIG-ne-ous from MAG-ma COOLS,\nSED-i-MEN-tar-y\u2014COM-pressed RULES,\nMET-a-MOR-phic\u2014HEAT'S the TOOLS\u2014\nThree ROCK types\u2014na-ture's SCHOOLS!\n\nVERSION D (22 words):\nThree types of rocks we find:\nIg-ne-ous\u2014mag-ma's cooled de-sign,\nSed-i-men-tar-y\u2014lay-ers com-bine,\nMet-a-mor-phic\u2014pres-sure and heat re-fine!\n\nVERSION E (14 words):\nIG-ne-ous FIRE, SED-i-MEN-tar-y LAYER,\nMET-a-MOR-phic CHANGE\u2014the PLAY-er\u2014\nThree ROCKS\u2014na-ture's SAY-er!"
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (18 words):\nThree rock types form the Earth's crust:\nIg-ne-ous from mag-ma's thrust,\nSed-i-men-tar-y—lay-ers trust,\nMet-a-mor-phic—heat and pres-sure must!\n\nVERSION B (16 words):\nIg-ne-ous from fire made,\nSed-i-men-tar-y laid,\nMet-a-mor-phic—changed and weighed—\nThree rock types dis-played!\n\nVERSION C (20 words):\nIG-ne-ous from MAG-ma COOLS,\nSED-i-MEN-tar-y—COM-pressed RULES,\nMET-a-MOR-phic—HEAT'S the TOOLS—\nThree ROCK types—na-ture's SCHOOLS!\n\nVERSION D (22 words):\nThree types of rocks we find:\nIg-ne-ous—mag-ma's cooled de-sign,\nSed-i-men-tar-y—lay-ers com-bine,\nMet-a-mor-phic—pres-sure and heat re-fine!\n\nVERSION E (14 words):\nIG-ne-ous FIRE, SED-i-MEN-tar-y LAYER,\nMET-a-MOR-phic CHANGE—the PLAY-er—\nThree ROCKS—na-ture's SAY-er!"
                 },
                 {
                         "id": "GEO-05",
                         "category": "Geography",
                         "neutral": "Time zones divide the Earth into 24 regions, each representing one hour of the day, with the Prime Meridian at 0 degrees longitude in Greenwich, England serving as the reference point for Coordinated Universal Time.",
-                        "prosodic": "VERSIONS A, D, E (Removed B & C for poor rhyme quality)\n\nVERSION A (18 words):\nTwen-ty-four time zones di-vide the day,\nPrime Me-rid-i-an shows the way,\nGreen-wich, Eng-land\u2014ze-ro's stay,\nU-T-C guides the world's dis-play!\n\nVERSION D (22 words):\nTwen-ty-four time zones a-round the sphere,\nGreen-wich Prime Me-rid-i-an\u2014ze-ro here,\nCo-or-di-nates the hours clear,\nU-T-C's the ref-er-ence we re-vere!\n\nVERSION E (14 words):\nTWEN-ty-FOUR zones SPLIT the day,\nGREEN-wich ZE-ro\u2014U-T-C's way,\nPRIME Me-RID-i-an's PLAY!"
+                        "prosodic": "VERSIONS A, D, E (Removed B & C for poor rhyme quality)\n\nVERSION A (18 words):\nTwen-ty-four time zones di-vide the day,\nPrime Me-rid-i-an shows the way,\nGreen-wich, Eng-land—ze-ro's stay,\nU-T-C guides the world's dis-play!\n\nVERSION D (22 words):\nTwen-ty-four time zones a-round the sphere,\nGreen-wich Prime Me-rid-i-an—ze-ro here,\nCo-or-di-nates the hours clear,\nU-T-C's the ref-er-ence we re-vere!\n\nVERSION E (14 words):\nTWEN-ty-FOUR zones SPLIT the day,\nGREEN-wich ZE-ro—U-T-C's way,\nPRIME Me-RID-i-an's PLAY!"
                 },
                 {
                         "id": "LG-01",
                         "category": "Language",
                         "neutral": "The eight parts of speech in English are nouns that name people, places, things, or ideas; pronouns that replace nouns; verbs that express actions or states; adjectives that describe nouns; adverbs that modify verbs, adjectives, or other adverbs; prepositions that show relationships; conjunctions that connect words or phrases; and interjections that express emotion.",
-                        "prosodic": "VERSIONS A, B (Removed C, D, E for content faults)\n\nVERSION A (28 words):\nEight parts of speech we use each day:\nNouns name things in ev-ery way,\nPro-nouns re-place, verbs show the play,\nAd-jec-tives de-scribe what we say,\nAd-verbs mod-i-fy\u2014the dis-play,\nPrep-o-si-tions show how things stay,\nCon-junc-tions con-nect the ar-ray,\nIn-ter-jec-tions ex-press\u2014hooray!\n\nVERSION B (22 words):\nNouns name, pro-nouns re-place,\nVerbs act, ad-jec-tives grace,\nAd-verbs mod-i-fy with pace,\nPrep-o-si-tions show the space,\nCon-junc-tions join, in-ter-jec-tions\u2014face!"
+                        "prosodic": "VERSIONS A, B (Removed C, D, E for content faults)\n\nVERSION A (28 words):\nEight parts of speech we use each day:\nNouns name things in ev-ery way,\nPro-nouns re-place, verbs show the play,\nAd-jec-tives de-scribe what we say,\nAd-verbs mod-i-fy—the dis-play,\nPrep-o-si-tions show how things stay,\nCon-junc-tions con-nect the ar-ray,\nIn-ter-jec-tions ex-press—hooray!\n\nVERSION B (22 words):\nNouns name, pro-nouns re-place,\nVerbs act, ad-jec-tives grace,\nAd-verbs mod-i-fy with pace,\nPrep-o-si-tions show the space,\nCon-junc-tions join, in-ter-jec-tions—face!"
                 },
                 {
                         "id": "LG-02",
                         "category": "Language",
                         "neutral": "Subject-verb agreement requires that singular subjects take singular verbs and plural subjects take plural verbs, with special attention needed for compound subjects, indefinite pronouns, and subjects separated from verbs by phrases.",
-                        "prosodic": "VERSION A (20 words):\nSub-ject-verb a-gree-ment's clear and true:\nSin-gu-lar sub-jects, sin-gu-lar verbs too,\nPlu-ral sub-jects, plu-ral verbs through\u2014\nCom-pounds and pro-nouns\u2014watch what you do!\n\nVERSION B (Modified by user) (18 words):\nSin-gu-lar with sin-gu-lar must pair,\nPlu-ral with plu-ral\u2014ev-ery-where,\nCom-pounds, pro-nouns need spe-cial care\u2014\nSub-ject-verb a-gree-ment, keep it there!"
+                        "prosodic": "VERSION A (20 words):\nSub-ject-verb a-gree-ment's clear and true:\nSin-gu-lar sub-jects, sin-gu-lar verbs too,\nPlu-ral sub-jects, plu-ral verbs through—\nCom-pounds and pro-nouns—watch what you do!\n\nVERSION B (Modified by user) (18 words):\nSin-gu-lar with sin-gu-lar must pair,\nPlu-ral with plu-ral—ev-ery-where,\nCom-pounds, pro-nouns need spe-cial care—\nSub-ject-verb a-gree-ment, keep it there!"
                 },
                 {
                         "id": "LG-03",
                         "category": "Language",
                         "neutral": "The past perfect tense is formed using 'had' plus the past participle and indicates an action that was completed before another past action, such as 'I had finished my homework before dinner started.'",
-                        "prosodic": "VERSIONS B, D, E\n\nVERSION B (16 words):\n\"Had\" plus past par-ti-ci-ple shows:\nAc-tion done be-fore what fol-lows,\nOne thing fin-ished, then time goes\u2014\nPast per-fect tense\u2014that's how it flows!\n\nVERSION D (22 words):\nUse \"had\" plus par-ti-ci-ple to say:\nSome-thing fin-ished ear-li-er that day,\nBe-fore an-oth-er past ac-tion's way\u2014\nPast per-fect shows the time dis-play!\n\nVERSION E (14 words):\n\"HAD\" plus PAST par-TIC-i-ple STATE:\nFirst AC-tion\u2014fin-ished FATE,\nBE-fore the SEC-ond\u2014that's the DATE!"
+                        "prosodic": "VERSIONS B, D, E\n\nVERSION B (16 words):\n\"Had\" plus past par-ti-ci-ple shows:\nAc-tion done be-fore what fol-lows,\nOne thing fin-ished, then time goes—\nPast per-fect tense—that's how it flows!\n\nVERSION D (22 words):\nUse \"had\" plus par-ti-ci-ple to say:\nSome-thing fin-ished ear-li-er that day,\nBe-fore an-oth-er past ac-tion's way—\nPast per-fect shows the time dis-play!\n\nVERSION E (14 words):\n\"HAD\" plus PAST par-TIC-i-ple STATE:\nFirst AC-tion—fin-ished FATE,\nBE-fore the SEC-ond—that's the DATE!"
                 },
                 {
                         "id": "LG-04",
                         "category": "Language",
                         "neutral": "There are three types of sentences: simple sentences contain one independent clause, compound sentences have two or more independent clauses joined by coordinating conjunctions, and complex sentences combine an independent clause with one or more dependent clauses using subordinating conjunctions.",
-                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nThree sen-tence types we write each day:\nSim-ple\u2014one clause on dis-play,\nCom-pound\u2014two joined in their way,\nCom-plex\u2014in-de-pen-dent plus de-pen-dent's play!\n\nVERSION B (20 words):\nSim-ple sen-tence: one clause stands,\nCom-pound joins with con-junc-tion's bands,\nCom-plex mixes\u2014un-der-stands\u2014\nIn-de-pen-dent, de-pen-dent hands!\n\nVERSION C (22 words):\nSIM-ple: ONE clause\u2014that's the DEAL,\nCOM-pound: TWO joined\u2014the ap-PEAL,\nCOM-plex: MIX-es\u2014what's re-AL\u2014\nThree sen-TENCE types\u2014the i-DE-al!\n\nVERSION D (26 words):\nSim-ple sen-tenc-es have one clause a-lone,\nCom-pound sen-tenc-es join two\u2014they're known,\nCom-plex sen-tenc-es mix the tone\u2014\nIn-de-pen-dent, de-pen-dent\u2014both are shown!\n\nVERSION E (16 words):\nSIM-ple: ONE clause CLEAR,\nCOM-pound: TWO clauses NEAR,\nCOM-plex: MIX-es HERE\u2014\nThree types AP-PEAR!"
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nThree sen-tence types we write each day:\nSim-ple—one clause on dis-play,\nCom-pound—two joined in their way,\nCom-plex—in-de-pen-dent plus de-pen-dent's play!\n\nVERSION B (20 words):\nSim-ple sen-tence: one clause stands,\nCom-pound joins with con-junc-tion's bands,\nCom-plex mixes—un-der-stands—\nIn-de-pen-dent, de-pen-dent hands!\n\nVERSION C (22 words):\nSIM-ple: ONE clause—that's the DEAL,\nCOM-pound: TWO joined—the ap-PEAL,\nCOM-plex: MIX-es—what's re-AL—\nThree sen-TENCE types—the i-DE-al!\n\nVERSION D (26 words):\nSim-ple sen-tenc-es have one clause a-lone,\nCom-pound sen-tenc-es join two—they're known,\nCom-plex sen-tenc-es mix the tone—\nIn-de-pen-dent, de-pen-dent—both are shown!\n\nVERSION E (16 words):\nSIM-ple: ONE clause CLEAR,\nCOM-pound: TWO clauses NEAR,\nCOM-plex: MIX-es HERE—\nThree types AP-PEAR!"
                 },
                 {
                         "id": "LG-05",
                         "category": "Language",
                         "neutral": "Homophones are words that sound the same but have different meanings and spellings, such as their, there, and they're, or to, two, and too. These are common sources of writing errors.",
-                        "prosodic": "VERSIONS C, E\n\nVERSION C (20 words):\nHOM-o-PHONES sound a-LIKE,\nSPELL-ings DIF-fer\u2014take a HIKE:\nTHEIR, THERE, THEY'RE\u2014what you LIKE,\nTO, TWO, TOO\u2014get it RIGHT!\n\nVERSION E (14 words):\nSAME sound, DIF-fer-ent SPELL:\nTheir/there/they're\u2014can you TELL?\nTo/two/too\u2014know them WELL!"
+                        "prosodic": "VERSIONS C, E\n\nVERSION C (20 words):\nHOM-o-PHONES sound a-LIKE,\nSPELL-ings DIF-fer—take a HIKE:\nTHEIR, THERE, THEY'RE—what you LIKE,\nTO, TWO, TOO—get it RIGHT!\n\nVERSION E (14 words):\nSAME sound, DIF-fer-ent SPELL:\nTheir/there/they're—can you TELL?\nTo/two/too—know them WELL!"
                 },
                 {
                         "id": "GK-01",
                         "category": "General",
                         "neutral": "The scientific method follows these steps: first, make an observation about a phenomenon. Second, form a hypothesis to explain it. Third, design and conduct experiments to test the hypothesis. Fourth, analyze the data collected. Finally, draw conclusions and communicate results, then repeat the process if needed.",
-                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (20 words):\nOb-serve, then form hy-poth-e-sis true,\nEx-per-i-ment, test what you knew,\nAn-a-lyze da-ta through and through,\nCon-clude, com-mu-ni-cate\u2014that's the view!\n\nVERSION C (22 words):\nOB-serve the WORLD, form HY-POTH-e-sis BRIGHT,\nEX-per-i-MENT to test what's RIGHT,\nAN-a-lyze DA-ta in the LIGHT,\nCON-clude and SHARE\u2014the sci-en-tif-ic SIGHT!\n\nVERSION D (26 words):\nSci-en-tif-ic meth-od guides the way we know:\nFirst ob-serve the world\u2014the show,\nForm hy-poth-e-sis to grow,\nTest through ex-per-i-ments' flow,\nAn-a-lyze, con-clude\u2014let knowl-edge glow!\n\nVERSION E (16 words):\nOB-serve, HY-POTH-e-size the CALL,\nEX-per-i-MENT\u2014test it ALL,\nAN-a-lyze, CON-clude\u2014stand TALL!"
+                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (20 words):\nOb-serve, then form hy-poth-e-sis true,\nEx-per-i-ment, test what you knew,\nAn-a-lyze da-ta through and through,\nCon-clude, com-mu-ni-cate—that's the view!\n\nVERSION C (22 words):\nOB-serve the WORLD, form HY-POTH-e-sis BRIGHT,\nEX-per-i-MENT to test what's RIGHT,\nAN-a-lyze DA-ta in the LIGHT,\nCON-clude and SHARE—the sci-en-tif-ic SIGHT!\n\nVERSION D (26 words):\nSci-en-tif-ic meth-od guides the way we know:\nFirst ob-serve the world—the show,\nForm hy-poth-e-sis to grow,\nTest through ex-per-i-ments' flow,\nAn-a-lyze, con-clude—let knowl-edge glow!\n\nVERSION E (16 words):\nOB-serve, HY-POTH-e-size the CALL,\nEX-per-i-MENT—test it ALL,\nAN-a-lyze, CON-clude—stand TALL!"
                 },
                 {
                         "id": "GK-02",
                         "category": "General",
                         "neutral": "Good sleep hygiene includes going to bed at the same time every night, avoiding screens one hour before bedtime, keeping the bedroom cool and dark, and limiting caffeine after 2 PM.",
-                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (18 words):\nSame time to bed each night you go,\nScreens off one hour\u2014let it flow,\nCool and dark room\u2014soft and low,\nCaf-feine ends at two\u2014you know!\n\nVERSION C (22 words):\nSAME bed-TIME ev-ery NIGHT,\nNO screens ONE hour\u2014that's RIGHT,\nCOOL and DARK room\u2014out of SIGHT,\nCAF-feine STOPS at TWO\u2014sleep TIGHT!\n\nVERSION D (24 words):\nSleep hy-giene for rest-ful nights so sweet:\nReg-u-lar bed-time keeps the beat,\nOne hour no screens\u2014the treat,\nCool, dark, caf-feine-free\u2014com-plete!\n\nVERSION E (14 words):\nSAME time BED, screens OFF,\nCOOL, DARK room\u2014don't SCOFF,\nCAF-feine TWO\u2014cut OFF!"
+                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (18 words):\nSame time to bed each night you go,\nScreens off one hour—let it flow,\nCool and dark room—soft and low,\nCaf-feine ends at two—you know!\n\nVERSION C (22 words):\nSAME bed-TIME ev-ery NIGHT,\nNO screens ONE hour—that's RIGHT,\nCOOL and DARK room—out of SIGHT,\nCAF-feine STOPS at TWO—sleep TIGHT!\n\nVERSION D (24 words):\nSleep hy-giene for rest-ful nights so sweet:\nReg-u-lar bed-time keeps the beat,\nOne hour no screens—the treat,\nCool, dark, caf-feine-free—com-plete!\n\nVERSION E (14 words):\nSAME time BED, screens OFF,\nCOOL, DARK room—don't SCOFF,\nCAF-feine TWO—cut OFF!"
                 },
                 {
                         "id": "GK-03",
                         "category": "General",
                         "neutral": "Effective time management involves setting SMART goals: Specific objectives that are clearly defined, Measurable progress that can be tracked, Achievable targets within your capabilities, Relevant to your priorities, and Time-bound with clear deadlines. This framework helps ensure productive use of time.",
-                        "prosodic": "VERSIONS B, C, D\n\nVERSION B (18 words):\nSpe-cif-ic, meas-ur-a-ble goals we set,\nA-chiev-a-ble\u2014no re-gret,\nRel-e-vant to your mind-set,\nTime-bound\u2014don't for-get!\n\nVERSION C (20 words):\nSPE-cif-IC goals, MEAS-ure-A-ble TRACK,\nA-CHIEV-a-ble\u2014stay on TACK,\nREL-e-vant\u2014don't look BACK,\nTIME-bound DEAD-lines\u2014that's the KNACK!\n\nVERSION D (24 words):\nSMART goals guide your path to suc-cess:\nSpe-cif-ic aims to ad-dress,\nMeas-ur-a-ble prog-ress,\nA-chiev-a-ble\u2014no stress,\nRel-e-vant\u2014im-press,\nTime-bound\u2014noth-ing less!"
+                        "prosodic": "VERSIONS B, C, D\n\nVERSION B (18 words):\nSpe-cif-ic, meas-ur-a-ble goals we set,\nA-chiev-a-ble—no re-gret,\nRel-e-vant to your mind-set,\nTime-bound—don't for-get!\n\nVERSION C (20 words):\nSPE-cif-IC goals, MEAS-ure-A-ble TRACK,\nA-CHIEV-a-ble—stay on TACK,\nREL-e-vant—don't look BACK,\nTIME-bound DEAD-lines—that's the KNACK!\n\nVERSION D (24 words):\nSMART goals guide your path to suc-cess:\nSpe-cif-ic aims to ad-dress,\nMeas-ur-a-ble prog-ress,\nA-chiev-a-ble—no stress,\nRel-e-vant—im-press,\nTime-bound—noth-ing less!"
                 },
                 {
                         "id": "GK-04",
                         "category": "General",
                         "neutral": "The four basic tastes detected by human taste buds are sweet, salty, sour, and bitter. Scientists have also identified umami, a savory taste found in foods like cheese and mushrooms.",
-                        "prosodic": "VERSIONS A, B, C, E\n\nVERSION A (18 words):\nFour ba-sic tastes we know by heart:\nSweet, sal-ty, sour\u2014each a part,\nBit-ter too\u2014the taste chart,\nPlus u-ma-mi\u2014sa-vo-ry's art!\n\nVERSION B (16 words):\nSweet, sal-ty, sour, and bit-ter taste,\nFour ba-sic fla-vors we have traced,\nU-ma-mi\u2014sa-vo-ry graced\u2014\nFive tastes placed!\n\nVERSION C (20 words):\nSWEET and SAL-ty, SOUR and BIT-ter TOO,\nFOUR ba-sic TASTES our tongues re-VIEW,\nU-MA-mi SA-vo-ry\u2014the NEW,\nFIVE tastes we CHEW!\n\nVERSION E (12 words):\nSWEET, SAL-ty, SOUR, BIT-ter FOUND,\nU-MA-mi SA-vo-ry SOUND\u2014\nFIVE tastes A-ROUND!"
+                        "prosodic": "VERSIONS A, B, C, E\n\nVERSION A (18 words):\nFour ba-sic tastes we know by heart:\nSweet, sal-ty, sour—each a part,\nBit-ter too—the taste chart,\nPlus u-ma-mi—sa-vo-ry's art!\n\nVERSION B (16 words):\nSweet, sal-ty, sour, and bit-ter taste,\nFour ba-sic fla-vors we have traced,\nU-ma-mi—sa-vo-ry graced—\nFive tastes placed!\n\nVERSION C (20 words):\nSWEET and SAL-ty, SOUR and BIT-ter TOO,\nFOUR ba-sic TASTES our tongues re-VIEW,\nU-MA-mi SA-vo-ry—the NEW,\nFIVE tastes we CHEW!\n\nVERSION E (12 words):\nSWEET, SAL-ty, SOUR, BIT-ter FOUND,\nU-MA-mi SA-vo-ry SOUND—\nFIVE tastes A-ROUND!"
                 },
                 {
                         "id": "GK-05",
                         "category": "General",
                         "neutral": "Critical thinking requires several skills: analyzing information by breaking it into components, evaluating sources for credibility and bias, synthesizing different viewpoints to form conclusions, making logical inferences based on evidence, and questioning assumptions rather than accepting claims at face value.",
-                        "prosodic": "VERSIONS A, B, C, D\n\nVERSION A (26 words):\nCrit-i-cal think-ing skills we need:\nAn-a-lyze in-for-ma-tion\u2014take the lead,\nE-val-u-ate sourc-es\u2014pro-ceed,\nSyn-the-size view-points\u2014plant the seed,\nIn-fer from ev-i-dence\u2014suc-ceed,\nQues-tion as-sump-tions\u2014that's the creed!\n\nVERSION B (20 words):\nAn-a-lyze, e-val-u-ate what you see,\nSyn-the-size dif-fer-ent views\u2014be free,\nIn-fer from ev-i-dence\u2014the key,\nQues-tion claims crit-i-cal-ly!\n\nVERSION C (24 words):\nAN-a-lyze IN-fo, break it DOWN,\nE-VAL-u-ate SOURC-es all a-ROUND,\nSYN-the-size VIEW-points that are FOUND,\nIN-fer, QUES-tion\u2014crit-i-cal SOUND!\n\nVERSION D (28 words):\nCrit-i-cal think-ing means you must:\nBreak down in-fo\u2014gain the trust,\nE-val-u-ate with-out dis-gust,\nSyn-the-size views\u2014it's a must,\nIn-fer, ques-tion what's dis-cussed\u2014\nThink be-yond the sur-face crust!"
+                        "prosodic": "VERSIONS A, B, C, D\n\nVERSION A (26 words):\nCrit-i-cal think-ing skills we need:\nAn-a-lyze in-for-ma-tion—take the lead,\nE-val-u-ate sourc-es—pro-ceed,\nSyn-the-size view-points—plant the seed,\nIn-fer from ev-i-dence—suc-ceed,\nQues-tion as-sump-tions—that's the creed!\n\nVERSION B (20 words):\nAn-a-lyze, e-val-u-ate what you see,\nSyn-the-size dif-fer-ent views—be free,\nIn-fer from ev-i-dence—the key,\nQues-tion claims crit-i-cal-ly!\n\nVERSION C (24 words):\nAN-a-lyze IN-fo, break it DOWN,\nE-VAL-u-ate SOURC-es all a-ROUND,\nSYN-the-size VIEW-points that are FOUND,\nIN-fer, QUES-tion—crit-i-cal SOUND!\n\nVERSION D (28 words):\nCrit-i-cal think-ing means you must:\nBreak down in-fo—gain the trust,\nE-val-u-ate with-out dis-gust,\nSyn-the-size views—it's a must,\nIn-fer, ques-tion what's dis-cussed—\nThink be-yond the sur-face crust!"
                 }
         ],
         "digit_span": [
@@ -1715,7 +1719,7 @@
                 name: "Phase 1: Simple Sentences",
                 icon: "📝",
                 count: 42,
-                description: "Initial exploration testing general-purpose LLMs (Claude, ChatGPT, Gemini) for transforming simple safety, health, and learning sentences into prosodic versions. Focus on establishing baseline transformation quality and identifying effective prosodic patterns."
+                description: "Initial exploration testing general-purpose LLMs (Claude, ChatGPT, Gemini) for transforming simple safety, health, and learning sentences into prosodic versions. Focus on establishing baseline transformation quality and identifying effective prosodic patterns. Each entry has TWO prosodic versions for comparison."
             },
             phase2: {
                 name: "Stage 2: Complex Educational Content",
@@ -1831,15 +1835,19 @@
                 card.onclick = () => openModal(entry, sectionKey);
                 
                 if (sectionKey === 'phase1') {
+                    // Show BOTH versions
                     card.innerHTML = `
-                        <div class="entry-id">${entry.id}</div>
+                        <div class="entry-id">${entry.id}<span class="entry-category">${entry.category}</span></div>
                         <div class="entry-neutral">${escapeHtml(entry.neutral)}</div>
-                        <div class="entry-prosodic">${escapeHtml(entry.prosodic_v1 || entry.prosodic_v2)}</div>
+                        <div class="version-label">Version 1:</div>
+                        <div class="entry-prosodic">${escapeHtml(entry.prosodic_v1)}</div>
+                        <div class="version-label">Version 2:</div>
+                        <div class="entry-prosodic">${escapeHtml(entry.prosodic_v2)}</div>
                         <div class="comments-count">💬 <span id="count-${entry.id}">0</span> comments</div>
                     `;
                 } else if (sectionKey === 'phase2') {
                     card.innerHTML = `
-                        <div class="entry-id">${entry.id}</div>
+                        <div class="entry-id">${entry.id}<span class="entry-category">${entry.category}</span></div>
                         <div class="entry-neutral">${escapeHtml(entry.neutral)}</div>
                         <div class="entry-prosodic">${escapeHtml(entry.prosodic).replace(/\n/g, '<br>')}</div>
                         <div class="comments-count">💬 <span id="count-${entry.id}">0</span> comments</div>
@@ -1867,7 +1875,7 @@
             if (sectionKey === 'phase1') {
                 document.getElementById('modalNeutral').textContent = entry.neutral;
                 document.getElementById('modalProsodic').textContent = 
-                    `V1: ${entry.prosodic_v1}\n\nV2: ${entry.prosodic_v2}`;
+                    `Version 1:\n${entry.prosodic_v1}\n\nVersion 2:\n${entry.prosodic_v2}`;
             } else if (sectionKey === 'phase2') {
                 document.getElementById('modalNeutral').textContent = entry.neutral;
                 document.getElementById('modalProsodic').textContent = entry.prosodic;
@@ -1896,7 +1904,7 @@
 
         function loadComments(entryId) {
             const commentsList = document.getElementById('commentsList');
-            commentsList.innerHTML = '<div class="loading">Loading comments...</div>';
+            commentsList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading comments...</div>';
             
             database.ref(`comments/${entryId}`).once('value', snapshot => {
                 const comments = [];
@@ -1907,7 +1915,7 @@
                 comments.sort((a, b) => b.timestamp - a.timestamp);
                 
                 if (comments.length === 0) {
-                    commentsList.innerHTML = '<div class="empty-state">No comments yet. Be the first!</div>';
+                    commentsList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted);">No comments yet. Be the first!</div>';
                 } else {
                     commentsList.innerHTML = comments.map(c => `
                         <div class="comment">
