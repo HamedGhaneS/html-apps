@@ -42,6 +42,31 @@
             /* Custom styling for the flow diagram arrows */
             content: '→';
         }
+    
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-button:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
     </style>
     <!-- Chosen Palette: "Cognitive Clarity" (Base: sky-50, stone-800; Accent: blue-600, blue-800) -->
     <!-- Application Structure Plan: A single-page dashboard with a constructed System Diagram, a top-level Rationale, a chronological Evidence Explorer (combining all 11 studies into a clickable card system), and a Data Synthesis chart. The chronological arrangement helps demonstrate the field's continuous scientific validation. The diagram is built-in HTML/Tailwind for environment compatibility. -->
@@ -53,6 +78,15 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-sky-50 text-stone-800">
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to Dataset Review
+    </a>
+
+
 
     <header class="bg-white/90 backdrop-blur-sm shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-4 md:px-8 py-4">
