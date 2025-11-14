@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prosody-on-Demand Dataset Review | University of Glasgow</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --bg-light: #ffffff;
+            --bg-gray: #f8fafc;
+            --bg-section: #f1f5f9;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        /* Navigation Bar */
+        .nav-bar {
+            background: #ffffff;
+            border-bottom: 2px solid var(--border);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .nav-tab {
+            padding: 18px 35px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .nav-tab:hover {
+            background: var(--bg-section);
+            border-bottom-color: var(--primary);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: var(--bg-section);
+        }
+
+        /* Hero Section with Brain Background */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 500px;
+            padding: 80px 0;
+            margin-bottom: 60px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.75) 0%, rgba(118, 75, 162, 0.75) 100%), 
+                        url('Brain-Rhyme.jpeg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.7), 0 0 30px rgba(0,0,0,0.4);
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            color: #ffffff;
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.6), 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        /* Project Context */
+        .project-context {
+            background: var(--bg-light);
+            padding: 50px;
+            border-radius: 20px;
+            margin: -30px auto 50px;
+            box-shadow: 0 10px 40px var(--shadow);
+            border: 1px solid var(--border);
+            max-width: 1100px;
+        }
+
+        .context-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .context-text {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .block-diagram {
+            width: 100%;
+            max-width: 900px;
+            margin: 30px auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .poster-link {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .poster-link:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .link-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            background: var(--bg-light);
+            border-radius: 15px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .user-email {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: #ef4444;
+        }
+
+        .btn-secondary:hover {
+            background: #dc2626;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Phase Header */
+        .phase-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 20px 35px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 25px var(--shadow);
+        }
+
+        .phase-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .phase-subtitle {
+            font-size: 15px;
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Dataset Section */
+        .dataset-section {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 25px var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .dataset-section.phase3-subsection {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            padding: 15px;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .section-header:hover {
+            background: var(--bg-section);
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 32px;
+        }
+
+        .section-badge {
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .section-description {
+            background: var(--bg-section);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .toggle-icon {
+            font-size: 24px;
+            transition: transform 0.3s;
+            color: var(--primary);
+        }
+
+        .toggle-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .entries-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .entries-grid.active {
+            display: grid;
+        }
+
+        /* Entry Card */
+        .entry-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .entry-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px var(--shadow);
+            transform: translateY(-3px);
+        }
+
+        .entry-id {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .entry-category {
+            display: inline-block;
+            background: var(--bg-section);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 10px;
+        }
+
+        .entry-neutral {
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--bg-section);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .entry-prosodic {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+            font-style: italic;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .version-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .comments-count {
+            margin-top: 15px;
+            padding: 8px 14px;
+            background: var(--bg-section);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            display: inline-block;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .close-btn {
+            background: var(--bg-section);
+            color: var(--text-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.2s;
+            border: none;
+            padding: 0;
+        }
+
+        .close-btn:hover {
+            background: var(--border);
+            transform: rotate(90deg);
+        }
+
+        .modal-entry {
+            margin-bottom: 30px;
+        }
+
+        .modal-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .modal-text {
+            font-size: 16px;
+            padding: 15px;
+            background: var(--bg-section);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-prosodic {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.08));
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+            white-space: pre-wrap;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border);
+        }
+
+        .comments-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: var(--bg-light);
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .comment-btn {
+            padding: 14px 30px;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comment {
+            background: var(--bg-light);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .comment-text {
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 300px;
+                padding: 60px 20px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .project-context {
+                padding: 30px 20px;
+            }
+
+            .context-title {
+                font-size: 22px;
+            }
+
+            .auth-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .entries-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 25px;
+            }
+
+            .comment-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-tab active">📊 Dataset Review</a>
+            <a href="literature_review.html" class="nav-tab">📚 Literature Review</a>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-badge">University of Glasgow | Neurotech Innovation</div>
+                <h1 class="hero-title">Prosody-on-Demand</h1>
+                <p class="hero-subtitle">AI-Driven Active Earplug for Memory Enhancement through Prosodic Speech Transformation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Project Context -->
+        <div class="project-context">
+            <h2 class="context-title">Dataset Review System</h2>
+            <p class="context-text">
+                Prosody-on-Demand transforms neutral speech into rhythmic, melodic, prosodic versions to enhance memory encoding. 
+                Research shows prosody provides timing cues that make speech easier to encode and recall. This system uses 
+                AI to apply content-preserving prosodic patterns (rhythm, rhyme, intonation) to spoken information in real-time, 
+                targeting applications in education, safety instructions, and working memory tasks.
+            </p>
+            
+            <img src="Block%20Diagram.png" alt="Prosody-on-Demand System Architecture" class="block-diagram" onerror="console.log('Block diagram failed to load')">
+            
+            <p class="context-text" style="margin-top: 20px;">
+                The system captures neutral speech, processes it through an active earplug with embedded AI, and delivers 
+                prosodic speech to enhance memory encoding. EEG feedback enables real-time optimization of prosodic patterns 
+                based on neural responses.
+            </p>
+
+            <div class="link-container">
+                <a href="Copy_of_Poster__1_.pdf" target="_blank" class="poster-link">
+                    📄 View Full Research Poster (PDF)
+                </a>
+            </div>
+        </div>
+
+        <!-- Authentication Section -->
+        <div class="auth-section">
+            <div class="user-info">
+                <div id="userDisplay" style="display: none;">
+                    <img id="userAvatar" class="user-avatar" src="" alt="User">
+                    <div class="user-details">
+                        <div class="user-name" id="userName"></div>
+                        <div class="user-email" id="userEmail"></div>
+                    </div>
+                </div>
+                <div id="signedOutDisplay">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: var(--primary); flex-shrink: 0;">
+                            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span style="color: var(--text-muted); font-size: 15px;">
+                            <strong style="color: var(--text-dark);">To leave your comments,</strong> please sign in with your Google account
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="authBtn" onclick="handleAuth()">Sign In with Google</button>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <span class="stat-number">162</span>
+                <span class="stat-label">Total Entries</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalComments">0</span>
+                <span class="stat-label">Total Comments</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">3</span>
+                <span class="stat-label">Phases</span>
+            </div>
+        </div>
+
+        <!-- Dataset Sections -->
+        <div id="datasetsContainer"></div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="modalEntryId"></div>
+                </div>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+
+            <div class="modal-entry">
+                <div class="modal-label">Neutral Version</div>
+                <div class="modal-text" id="modalNeutral"></div>
+            </div>
+
+            <div class="modal-entry">
+                <div class="modal-label">Prosodic Versions</div>
+                <div class="modal-text modal-prosodic" id="modalProsodic"></div>
+            </div>
+
+            <div class="comments-section">
+                <h3 class="comments-title">💬 Comments</h3>
+                
+                <div class="comment-form" id="commentForm">
+                    <input 
+                        type="text" 
+                        class="comment-input" 
+                        id="commentInput" 
+                        placeholder="Add your feedback or suggestions..."
+                    >
+                    <button class="comment-btn" onclick="submitComment()">Post</button>
+                </div>
+
+                <div class="comments-list" id="commentsList">
+                    <div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading comments...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmS7TWl3r8uAo-0BPXJAyqx-FoiMO0seo",
+            authDomain: "prode-1c62f.firebaseapp.com",
+            databaseURL: "https://prode-1c62f-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "prode-1c62f",
+            storageBucket: "prode-1c62f.firebasestorage.app",
+            messagingSenderId: "535506334096",
+            appId: "1:535506334096:web:3a22edc8efe35cff5062b9",
+            measurementId: "G-LMR2ME05M4"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        let currentUser = null;
+        let currentEntryId = null;
+
+        // Dataset
+        const DATASET = {
+        "phase1": [
+                {
+                        "id": "S-01",
+                        "category": "Safety",
+                        "neutral": "Wear eye protection when using power tools.",
+                        "prosodic_v1": "Shield your sight when power tools bite.",
+                        "prosodic_v2": "Shield your sight when the power's in flight"
+                },
+                {
+                        "id": "S-02",
+                        "category": "Safety",
+                        "neutral": "Keep emergency exits clear at all times.",
+                        "prosodic_v1": "Keep exits clear—save lives here.",
+                        "prosodic_v2": "Exit path clear, lives held dear"
+                },
+                {
+                        "id": "S-03",
+                        "category": "Safety",
+                        "neutral": "Report any spill to the supervisor immediately.",
+                        "prosodic_v1": "See a spill? Report it—no chill.",
+                        "prosodic_v2": "Spill you see? Report with speed"
+                },
+                {
+                        "id": "S-04",
+                        "category": "Safety",
+                        "neutral": "Use the handrail when walking on stairs.",
+                        "prosodic_v1": "Step by step, hand on rail—no fail.",
+                        "prosodic_v2": "Hand to rail, never derail"
+                },
+                {
+                        "id": "S-05",
+                        "category": "Safety",
+                        "neutral": "Store chemicals in labeled containers only.",
+                        "prosodic_v1": "Labels on, lids tight—store chemicals right.",
+                        "prosodic_v2": "Label first, safety burst"
+                },
+                {
+                        "id": "S-06",
+                        "category": "Safety",
+                        "neutral": "Switch off the machine before cleaning it.",
+                        "prosodic_v1": "Before you clean, cut the machine.",
+                        "prosodic_v2": "Power down before you wipe it down"
+                },
+                {
+                        "id": "H-01",
+                        "category": "Health & Hygiene",
+                        "neutral": "Wash your hands before handling food.",
+                        "prosodic_v1": "Before you prep, soap up—hands first.",
+                        "prosodic_v2": "Clean hands first, food comes next"
+                },
+                {
+                        "id": "H-02",
+                        "category": "Health & Hygiene",
+                        "neutral": "Drink water regularly throughout the day.",
+                        "prosodic_v1": "Sip through the day; stay OK.",
+                        "prosodic_v2": "Hydrate to operate all day long"
+                },
+                {
+                        "id": "H-03",
+                        "category": "Health & Hygiene",
+                        "neutral": "Cover your mouth and nose when you cough.",
+                        "prosodic_v1": "Cough and close—cover mouth and nose.",
+                        "prosodic_v2": "Cough to your sleeve, not to me"
+                },
+                {
+                        "id": "H-04",
+                        "category": "Health & Hygiene",
+                        "neutral": "Disinfect shared surfaces after use.",
+                        "prosodic_v1": "Share the space? Wipe the place.",
+                        "prosodic_v2": "Wipe it clean after you've been"
+                },
+                {
+                        "id": "H-05",
+                        "category": "Health & Hygiene",
+                        "neutral": "Take medication exactly as prescribed.",
+                        "prosodic_v1": "Dose as directed—effects protected.",
+                        "prosodic_v2": "Pills by the rules, stay in the groove"
+                },
+                {
+                        "id": "H-06",
+                        "category": "Health & Hygiene",
+                        "neutral": "Get at least seven hours of sleep each night.",
+                        "prosodic_v1": "Seven a night keeps you bright.",
+                        "prosodic_v2": "Seven hours nightly keeps you mighty"
+                },
+                {
+                        "id": "L-01",
+                        "category": "Learning & Study",
+                        "neutral": "Review your notes within twenty-four hours of a lecture.",
+                        "prosodic_v1": "Review in a day—make it stay.",
+                        "prosodic_v2": "Notes reviewed make knowledge glued"
+                },
+                {
+                        "id": "L-02",
+                        "category": "Learning & Study",
+                        "neutral": "Practice a little every day rather than once a week.",
+                        "prosodic_v1": "A little daily beats a lot weekly.",
+                        "prosodic_v2": "Daily practice makes you ace this"
+                },
+                {
+                        "id": "L-03",
+                        "category": "Learning & Study",
+                        "neutral": "Test yourself before checking the answer key.",
+                        "prosodic_v1": "Test before the key—prove it, then see",
+                        "prosodic_v2": "Self-test first, answers second"
+                },
+                {
+                        "id": "L-04",
+                        "category": "Learning & Study",
+                        "neutral": "Break long readings into short sections with pauses.",
+                        "prosodic_v1": "Long reads to bits—break, then breathe.",
+                        "prosodic_v2": "Chunk by chunk, learn by funk"
+                },
+                {
+                        "id": "L-05",
+                        "category": "Learning & Study",
+                        "neutral": "Explain a concept aloud to confirm understanding.",
+                        "prosodic_v1": "Say it to know it—speak it to keep it.",
+                        "prosodic_v2": "Speak to learn, make it firm"
+                },
+                {
+                        "id": "L-06",
+                        "category": "Learning & Study",
+                        "neutral": "Schedule a weekly recap of key topics.",
+                        "prosodic_v1": "Weekly recap keeps facts intact.",
+                        "prosodic_v2": "Weekly review keeps knowledge true"
+                },
+                {
+                        "id": "D-01",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Submit your application before Friday.",
+                        "prosodic_v1": "Friday's the line—submit on time.",
+                        "prosodic_v2": "Friday's the line, get it in on time"
+                },
+                {
+                        "id": "D-02",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Upload the report by 5 p.m. today.",
+                        "prosodic_v1": "Five today—report away.",
+                        "prosodic_v2": "Five PM deadline, meet the redline"
+                },
+                {
+                        "id": "D-03",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Confirm attendance at least forty-eight hours in advance.",
+                        "prosodic_v1": "Two days to spare—confirm you'll be there.",
+                        "prosodic_v2": "Forty-eight hours, confirm your powers"
+                },
+                {
+                        "id": "D-04",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Send the invoice within seven days of delivery.",
+                        "prosodic_v1": "Delivered and done? Seven days—send on.",
+                        "prosodic_v2": "Seven days sent, invoice pays"
+                },
+                {
+                        "id": "D-05",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Back up your files at the end of each workday.",
+                        "prosodic_v1": "Day done? Back up, everyone",
+                        "prosodic_v2": "Workday ends, backup sends"
+                },
+                {
+                        "id": "D-06",
+                        "category": "Deadlines & Admin",
+                        "neutral": "Renew your ID badge before the expiry date.",
+                        "prosodic_v1": "Don't be late—renew before the date.",
+                        "prosodic_v2": "Badge renewal beats upheaval"
+                },
+                {
+                        "id": "W-01",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Join the meeting five minutes early to test audio.",
+                        "prosodic_v1": "Five early to hear clearly.",
+                        "prosodic_v2": "Five before lets you explore"
+                },
+                {
+                        "id": "W-02",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Mute your microphone when not speaking.",
+                        "prosodic_v1": "Not speaking? Mic sleeping.",
+                        "prosodic_v2": "Mute when mute keeps meetings neat"
+                },
+                {
+                        "id": "W-03",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Share action items at the end of the call.",
+                        "prosodic_v1": "Call complete? Share the action sheet.",
+                        "prosodic_v2": "Meeting ends, action sends"
+                },
+                {
+                        "id": "W-04",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Follow the agenda in the listed order.",
+                        "prosodic_v1": "Agenda in line—follow the design.",
+                        "prosodic_v2": "Agenda's path keeps you on track"
+                },
+                {
+                        "id": "W-05",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Use the template when writing status updates.",
+                        "prosodic_v1": "Template first—status rehearsed.",
+                        "prosodic_v2": "Template use makes updates smooth"
+                },
+                {
+                        "id": "W-06",
+                        "category": "Workplace & Meetings",
+                        "neutral": "Ask for clarification if a task is unclear.",
+                        "prosodic_v1": "When in doubt, call it out.",
+                        "prosodic_v2": "Unclear task? Just ask"
+                },
+                {
+                        "id": "P-01",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Read the instructions carefully before starting.",
+                        "prosodic_v1": "Before you begin, read to win.",
+                        "prosodic_v2": "Read before proceed"
+                },
+                {
+                        "id": "P-02",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Check your mirrors before changing lanes.",
+                        "prosodic_v1": "Mirrors first, then lanes—avoid the pains.",
+                        "prosodic_v2": "Mirror check, lane select"
+                },
+                {
+                        "id": "P-03",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Save your work frequently during editing.",
+                        "prosodic_v1": "Edit a bit? Save every split.",
+                        "prosodic_v2": "Save to rave, edit the brave way"
+                },
+                {
+                        "id": "P-04",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Calibrate the device before each session.",
+                        "prosodic_v1": "Calibrate first—then operate.",
+                        "prosodic_v2": "Calibrate first, operate burst"
+                },
+                {
+                        "id": "P-05",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Label each sample immediately after collection.",
+                        "prosodic_v1": "Sample in hand? Label on demand.",
+                        "prosodic_v2": "Sample grabbed, label fast"
+                },
+                {
+                        "id": "P-06",
+                        "category": "Instructions & Procedures",
+                        "neutral": "Power down the system following the shutdown checklist.",
+                        "prosodic_v1": "Checklist in sight—power down right.",
+                        "prosodic_v2": "Shutdown list, never miss"
+                },
+                {
+                        "id": "T-01",
+                        "category": "Technology & Data",
+                        "neutral": "Back up your data every day.",
+                        "prosodic_v1": "Back up each day—keep loss away.",
+                        "prosodic_v2": "Data saved is crisis waved"
+                },
+                {
+                        "id": "T-02",
+                        "category": "Technology & Data",
+                        "neutral": "Use strong, unique passwords for each account.",
+                        "prosodic_v1": "One account, one key—strong as can be.",
+                        "prosodic_v2": "Strong unique keeps your mystique"
+                },
+                {
+                        "id": "T-03",
+                        "category": "Technology & Data",
+                        "neutral": "Update software when a security patch is released.",
+                        "prosodic_v1": "Patch comes out? Update—no doubt.",
+                        "prosodic_v2": "Patch released, update increased"
+                },
+                {
+                        "id": "T-04",
+                        "category": "Technology & Data",
+                        "neutral": "Verify file names before overwriting existing data.",
+                        "prosodic_v1": "Name check first—no overwrite curse.",
+                        "prosodic_v2": "Check the name, play the safe game"
+                },
+                {
+                        "id": "T-05",
+                        "category": "Technology & Data",
+                        "neutral": "Encrypt sensitive files before sharing them.",
+                        "prosodic_v1": "Lock, then share—encrypt with care.",
+                        "prosodic_v2": "Encrypt to protect, share with respect"
+                },
+                {
+                        "id": "T-06",
+                        "category": "Technology & Data",
+                        "neutral": "Log out from shared computers after use.",
+                        "prosodic_v1": "Shared seat? Log out—clean retreat.",
+                        "prosodic_v2": "Shared computer, log out proper"
+                }
+        ],
+        "phase2": [
+                {
+                        "id": "BIO-01",
+                        "category": "Biology",
+                        "neutral": "Photosynthesis is the process by which plants convert light energy into chemical energy stored in glucose molecules, using carbon dioxide from the air and water from the soil, while releasing oxygen as a byproduct.",
+                        "prosodic": "VERSION A (21 words):\nLight becomes the glucose plants can store,\nUsing carbon dioxide, water from the ground they pour,\nOxygen released—the byproduct we adore.\n\nVERSION B (30 words):\nSunlight into glucose—that's the plant's design,\nCarbon dioxide and water mix, combine,\nBuild the sugar, store the power line,\nRelease the oxygen—fresh air for you and me to dine."
+                },
+                {
+                        "id": "BIO-02",
+                        "category": "Biology",
+                        "neutral": "The human heart has four chambers: the right atrium receives deoxygenated blood from the body, the right ventricle pumps it to the lungs, the left atrium receives oxygenated blood from the lungs, and the left ventricle pumps it throughout the body.",
+                        "prosodic": "VERSION A (32 words):\nRight atrium takes the blood that's running low,\nRight ventricle sends it to the lungs to get the glow,\nLeft atrium catches back the oxygen-rich flow,\nLeft ventricle pumps it everywhere you need to go.\n\nVERSION B (28 words):\nFour chambers working pairs: right receives from body, pumps to lung,\nLeft receives from lung with oxygen among,\nPumps throughout the body strong—\nThis is how the heartbeat song is sung."
+                },
+                {
+                        "id": "BIO-03",
+                        "category": "Biology",
+                        "neutral": "DNA replication occurs during the S phase of the cell cycle when the double helix unwinds, complementary base pairs form, and two identical DNA molecules are created.",
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E) - Kept for testing\n\nVERSION A (24 words):\nIn S phase the double helix splits in two,\nComplementary bases pair up through and through,\nTwo identical DNA strands—perfectly new.\n\nVERSION B (28 words):\nS phase starts the replication dance,\nDouble helix unwinds to give the chance,\nBase pairs match in perfect stance,\nTwo identical DNA molecules advance.\n\nVERSION C (26 words):\nDuring S phase when the helix unwinds its coil,\nComplementary base pairs join in perfect toil,\nTwo matching DNA copies from the original spoil.\n\nVERSION D (18 words):\nS phase unwinds the strand apart,\nBases pair—the copying starts,\nTwo identical DNA works of art.\n\nVERSION E (32 words):\nIn S phase of the cycle, DNA begins to split,\nThe double helix unwinds bit by bit,\nComplementary base pairs perfectly fit,\nCreating two identical molecules—a genetic duplicate permit."
+                },
+                {
+                        "id": "BIO-04",
+                        "category": "Biology",
+                        "neutral": "Mitosis consists of four main phases: prophase when chromosomes condense, metaphase when they align at the cell's equator, anaphase when sister chromatids separate, and telophase when two nuclei form.",
+                        "prosodic": "VERSION B (28 words):\nFour phases split the cell in perfect time:\nProphase condenses, metaphase align,\nAnaphase separates the chromatid line,\nTelophase forms two nuclei—division's design.\n\nVERSION D (24 words):\nProphase: threads compress and grow,\nMetaphase: middle row they show,\nAnaphase: sisters split and go,\nTelophase: two nuclei below."
+                },
+                {
+                        "id": "BIO-05",
+                        "category": "Biology",
+                        "neutral": "The three main types of neurons are sensory neurons that carry signals from receptors to the central nervous system, motor neurons that transmit commands from the central nervous system to muscles, and interneurons that connect neurons within the central nervous system.",
+                        "prosodic": "VERSION I (24 words) - PRIMARY (rated \"AWESOME\"):\nSen-so-ry brings, mo-tor sends,\nIn-ter-neu-rons link and blend—\nFrom receptors, to the ends,\nThree neuron types that never bend.\n\nAlso keeping: Versions F and H for dataset testing:\nVERSION F (28 words):\nSensory senses, sends the signal in,\nMotor moves, makes the muscle spin,\nInterneurons link within, within—\nThree types dance beneath your skin.\n\nVERSION H (26 Words):\nFrom the senses, sensory flies to brain's domain,\nFrom the brain, motor drives through muscle's lane,\nLinking neurons dance the chain—\nThree types run the neural train."
+                },
+                {
+                        "id": "HIST-01",
+                        "category": "History",
+                        "neutral": "World War II began on September 1, 1939 when Germany invaded Poland, and ended on September 2, 1945 when Japan formally surrendered after the atomic bombings of Hiroshima on August 6 and Nagasaki on August 9.",
+                        "prosodic": "VERSIONS A, B, C, D (Eliminated E - too long)\n\nVERSION A (36 words):\nSeptember first, nineteen thirty-nine—Germany invades,\nPoland falls and World War starts its deadly cascades,\nHiroshima August sixth, Nagasaki ninth—atomic raids,\nJapan surrenders September second, forty-five—the war fades.\n\nVERSION B (40 words):\nNineteen thirty-nine in September's opening day,\nGermany struck Poland, war began its way,\nNineteen forty-five brought bombs in August's deadly display,\nHiroshima sixth, Nagasaki ninth—Japan surrendered September's second day.\n\nVERSION C (32 words):\nSep-tem-ber first, thir-ty-nine—the war be-gan,\nPo-land fell to Ger-man's plan,\nAu-gust bombs on Ja-pan,\nSep-tem-ber se-cond, for-ty-five—peace for ev-ery man.\n\nVERSION D (28 words):\nThirty-nine September—Germany invades Poland, war starts here,\nForty-five August—atomic bombs appear,\nHiroshima sixth, Nagasaki ninth—the final fear,\nSeptember second—Japan surrenders, victory clear."
+                },
+                {
+                        "id": "HIST-02",
+                        "category": "History",
+                        "neutral": "The American Revolution started in 1775 with battles at Lexington and Concord, the Declaration of Independence was signed on July 4, 1776, and the war ended in 1783 with the Treaty of Paris.",
+                        "prosodic": "VERSION B (28 words):\nIn April's dawn of 'seventy-five,\nLexington, Concord came alive.\nJuly Fourth, 'seventy-six, we claim\nIndependence in freedom's name.\n'Eighty-three in Paris sealed the fame—\nAmerica's birth in time's frame."
+                },
+                {
+                        "id": "HIST-03",
+                        "category": "History",
+                        "neutral": "The Renaissance began in Italy during the 14th century in Florence, spread throughout Europe over the next two centuries, and marked the transition from medieval to modern times through revival of classical learning and wisdom.",
+                        "prosodic": "VERSIONS A, C, D\n\nVERSION A (32 words):\nFlorence bloomed in century fourteen,\nWhere Renaissance art and thought were seen.\nThrough Europe's lands for two hundred years,\nClassical wisdom once more appears.\nMedieval night to modern day—\nRenaissance light showed the way.\n\nVERSION C (30 words):\nFlorence, fourteen-hundred's golden age,\nRenaissance turned history's page.\nTwo hundred years of art and mind,\nLeft medieval thought behind.\nClassical wisdom reborn anew,\nModern world came into view.\n\nVERSION D (26 words):\nFlorence first, in century fourteen,\nRenaissance colors bright and keen.\nEurope changed for centuries two,\nClassical learning born anew.\nMedieval fading, modern rising—\nWisdom's rebirth, not surprising."
+                },
+                {
+                        "id": "HIST-04",
+                        "category": "History",
+                        "neutral": "The French Revolution lasted from 1789 to 1799, beginning with the storming of the Bastille on July 14, 1789, progressing through the Reign of Terror in 1793-1794, and ending with Napoleon's coup in November 1799.",
+                        "prosodic": "VERSIONS G, I, J (Super-rhythmic style)\n\nVERSION G (24 words):\nEight-y-nine, nine-ty-nine—ten years run,\nBas-tille storm, re-vo-lu-tion be-gun,\nTer-ror time, nine-ty-three come,\nNa-po-leon's climb—France was won.\n\nVERSION I (30 words):\nFrom eight-y-nine to nine-ty-nine they fight—\nBas-tille falls on Ju-ly four-teen's night,\nTer-ror from nine-ty-three brings fright and blight,\nNa-po-leon's coup ends the rev-o-lu-tion-ary might.\n\nVERSION J (22 words):\nEight-NINE to NINE-nine, Bas-TILLE fell,\nJu-LY four-TEEN rang the bell,\nNine-ty-THREE through FOUR—the Ter-ror's spell,\nNine-ty-NINE—Na-po-LE-on's reb-el."
+                },
+                {
+                        "id": "HIST-05",
+                        "category": "History",
+                        "neutral": "The Industrial Revolution started in Britain around 1760, spread to other European countries and America by 1840, and transformed societies from agrarian economies to industrial and urban ones through mechanization and factory systems.",
+                        "prosodic": "ALL VERSIONS (F, G, H, I, J) - Super-rhythmic style\n\nVERSION F (28 words):\nSev-en-teen-SIX-ty—Brit-ain leads the WAY,\nEight-een-FOR-ty—Eu-rope joins the FRAY,\nFarm to fac-to-ry—the ur-ban DAY,\nMa-chines trans-FORMED how peo-ple work and STAY.\n\nVERSION G (24 words):\nSix-ty to for-ty, eight-y years run,\nBrit-ain first, then oth-ers come,\nFarm to fac-to-ry—old ways done,\nMa-chines and cit-ies won.\n\nVERSION H (30 words):\nSev-en-teen-six-ty—Brit-ain's fac-to-ries RISE,\nBy eight-een-for-ty—spread to for-eign SKIES,\nA-grar-i-an to in-dus-tri-al sur-PRISE,\nMech-an-i-za-tion opened new-born EYES.\n\nVERSION I (26 words):\nFrom sev-en-teen-six-ty Brit-ain showed the path,\nEight-een-for-ty brought the in-dus-tri-al wrath,\nFarms to fac-to-ries—the ur-ban math,\nMa-chines changed life in rev-o-lu-tion's bath.\n\nVERSION J (22 words):\nSIX-ty Brit-ain STARTS the show,\nFOR-ty spread—the fac-to-ries GROW,\nFARM to FAC-to-ry FLOW,\nMa-CHINES changed all we KNOW."
+                },
+                {
+                        "id": "MATH-01",
+                        "category": "Math",
+                        "neutral": "The Pythagorean theorem states that in a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides, expressed as a² + b² = c².",
+                        "prosodic": "VERSION 1 (12 words):\nRIGHT tri-ANGLE shows:\nA² plus B² GROWS,\nMakes C²—that's how it GOES!\n\nVERSION 2 (16 words):\nPythagoras, right triangle's clue:\nA-squared, B-squared, add them true,\nC-squared is what they make for you."
+                },
+                {
+                        "id": "MATH-02",
+                        "category": "Math",
+                        "neutral": "The quadratic formula x equals negative b plus or minus the square root of b squared minus 4ac, all divided by 2a, solves any quadratic equation in the form ax² + bx + c = 0.",
+                        "prosodic": "VERSION G (12 words):\nMi-nus B, plus-mi-nus the root,\nB²-four-A-C com-pute,\nO-ver two-A—ab-so-lute!\n\nVERSION J (10 words):\nMI-nus B, PLUS-mi-nus ROOT show:\nB²-FOUR-A-C FLOW,\nO-ver TWO-A—GO!"
+                },
+                {
+                        "id": "MATH-03",
+                        "category": "Math",
+                        "neutral": "The area of a circle is calculated using the formula A = πr², where π is approximately 3.14159 and r is the radius of the circle measured from the center to any point on the edge.",
+                        "prosodic": "VERSION F (12 words):\nCir-cle's ar-ea, here's the way:\nPi times ra-di-us squared—they say,\nA e-quals π-r²—to-day!\n\nVERSION G (10 words):\nAr-ea of cir-cles found:\nPi-r-squared—that's the round,\nA = πr²—sound!\n\nVERSION H (14 words):\nCIR-cle AR-ea, PI we know:\nTimes RA-di-us squared—the FLOW,\nA = πr²—that's the SHOW!\n\nVERSION J (8 words):\nCIR-cle's SPACE? PI-r² BASE—\nSim-ple CASE!"
+                },
+                {
+                        "id": "MATH-04",
+                        "category": "Math",
+                        "neutral": "The formula for compound interest is A = P(1 + r/n)^(nt), where A is the final amount, P is the principal, r is the annual interest rate, n is the number of times interest is compounded per year, and t is the time in years.",
+                        "prosodic": "VERSION A (18 words):\nCom-pound in-ter-est grows with time:\nA e-quals P, the prin-ci-pal prime,\nTimes one-plus-r-o-ver-n sub-lime,\nRaised to n-times-t—the climb!\n\nVERSION D (20 words):\nStart with prin-ci-pal P, add the rate:\nOne plus r-o-ver-n—cal-cu-late,\nRaise to n-times-t with-out de-bate,\nE-quals A—your mon-ey's fate!\n\nVERSION E (12 words):\nP TIMES (one-PLUS r/n) we RAISE:\nPow-er n-t DAYS,\nE-quals A—it PAYS!"
+                },
+                {
+                        "id": "MATH-05",
+                        "category": "Math",
+                        "neutral": "The slope-intercept form of a linear equation is y = mx + b, where m represents the slope or rate of change, and b represents the y-intercept where the line crosses the y-axis.",
+                        "prosodic": "VERSION E (Modified by user) (10 words):\nY = M-X plus B:\nSLOPE and IN-ter-CEPT— you see?\nLines made all EAS-Y!"
+                },
+                {
+                        "id": "GEO-01",
+                        "category": "Geography",
+                        "neutral": "The seven continents in order of size are Asia, Africa, North America, South America, Antarctica, Europe, and Australia, and they contain all the world's major landmasses except for islands.",
+                        "prosodic": "VERSIONS C, B, A\n\nVERSION C (18 words):\nSEV-en CON-ti-nents, big to small:\nA-sia, AF-ri-ca stand tall,\nA-MER-i-cas, Ant-ARC-tic call,\nEU-rope, Aus-TRAL-ia—that's all!\n\nVERSION B (16 words):\nA-sia, Af-ri-ca lead the way,\nBoth A-mer-i-cas stay,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia—sev-en to-day!\n\nVERSION A (20 words):\nSev-en con-ti-nents by size we know:\nA-sia first, Af-ri-ca's show,\nNorth then South A-mer-i-ca grow,\nAnt-arc-ti-ca, Eu-rope, Aus-tra-lia flow!"
+                },
+                {
+                        "id": "GEO-02",
+                        "category": "Geography",
+                        "neutral": "The five oceans are the Pacific Ocean which is the largest, the Atlantic Ocean, the Indian Ocean, the Southern Ocean surrounding Antarctica, and the Arctic Ocean which is the smallest and coldest.",
+                        "prosodic": "VERSIONS C, D, E\n\nVERSION C (20 words):\nFIVE o-CEANS, here's the call:\nPa-CIF-ic—BIG-gest of all,\nAt-LAN-tic, IN-di-an FALL,\nSOUTH-ern, ARC-tic—cold and small!\n\nVERSION D (22 words):\nFive o-ceans cov-er Earth's wide sea:\nPa-cif-ic larg-est—ma-jes-ty,\nAt-lan-tic, In-di-an free,\nSouth-ern, Arc-tic—i-cy three!\n\nVERSION E (14 words):\nPa-CIF-ic BIG, Arc-tic CHILL,\nAt-LAN-tic, IN-di-an FILL,\nSOUTH-ern round—that's the drill!"
+                },
+                {
+                        "id": "GEO-03",
+                        "category": "Geography",
+                        "neutral": "The Earth's atmosphere consists of five layers: the troposphere where weather occurs extends to 12 kilometers, the stratosphere containing the ozone layer reaches 50 kilometers, the mesosphere extends to 80 kilometers, the thermosphere goes to 600 kilometers, and the exosphere fades into space.",
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nFive at-mos-phere lay-ers rise:\nTro-po-sphere with weath-er skies,\nStrat-o-sphere where o-zone lies,\nMes-o, ther-mo, ex-o—space-ward prize!\n\nVERSION B (20 words):\nTro-po-sphere brings weath-er near,\nStrat-o-sphere—o-zone clear,\nMes-o, ther-mo lay-ers here,\nEx-o-sphere—space ap-pears!\n\nVERSION C (22 words):\nTRO-po-sphere—WEATH-er's place,\nSTRAT-o-sphere—O-ZONE'S space,\nMES-o, THER-mo rise and race,\nEX-o fades—to SPACE we trace!\n\nVERSION D (26 words):\nFive lay-ers wrap the Earth we know:\nTro-po-sphere where weath-er flows,\nStrat-o-sphere where o-zone glows,\nMes-o, ther-mo, ex-o grows—\nUp to space the at-mos-phere goes!\n\nVERSION E (16 words):\nTRO-po WEATH-er, STRAT-o ZONE,\nMES-o, THER-mo—up-ward FLOWN,\nEX-o SPACE—the TONE!"
+                },
+                {
+                        "id": "GEO-04",
+                        "category": "Geography",
+                        "neutral": "The three main types of rocks are igneous rocks formed from cooled magma or lava, sedimentary rocks created from compressed sediments and organic materials, and metamorphic rocks transformed by heat and pressure deep underground.",
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (18 words):\nThree rock types form the Earth's crust:\nIg-ne-ous from mag-ma's thrust,\nSed-i-men-tar-y—lay-ers trust,\nMet-a-mor-phic—heat and pres-sure must!\n\nVERSION B (16 words):\nIg-ne-ous from fire made,\nSed-i-men-tar-y laid,\nMet-a-mor-phic—changed and weighed—\nThree rock types dis-played!\n\nVERSION C (20 words):\nIG-ne-ous from MAG-ma COOLS,\nSED-i-MEN-tar-y—COM-pressed RULES,\nMET-a-MOR-phic—HEAT'S the TOOLS—\nThree ROCK types—na-ture's SCHOOLS!\n\nVERSION D (22 words):\nThree types of rocks we find:\nIg-ne-ous—mag-ma's cooled de-sign,\nSed-i-men-tar-y—lay-ers com-bine,\nMet-a-mor-phic—pres-sure and heat re-fine!\n\nVERSION E (14 words):\nIG-ne-ous FIRE, SED-i-MEN-tar-y LAYER,\nMET-a-MOR-phic CHANGE—the PLAY-er—\nThree ROCKS—na-ture's SAY-er!"
+                },
+                {
+                        "id": "GEO-05",
+                        "category": "Geography",
+                        "neutral": "Time zones divide the Earth into 24 regions, each representing one hour of the day, with the Prime Meridian at 0 degrees longitude in Greenwich, England serving as the reference point for Coordinated Universal Time.",
+                        "prosodic": "VERSIONS A, D, E (Removed B & C for poor rhyme quality)\n\nVERSION A (18 words):\nTwen-ty-four time zones di-vide the day,\nPrime Me-rid-i-an shows the way,\nGreen-wich, Eng-land—ze-ro's stay,\nU-T-C guides the world's dis-play!\n\nVERSION D (22 words):\nTwen-ty-four time zones a-round the sphere,\nGreen-wich Prime Me-rid-i-an—ze-ro here,\nCo-or-di-nates the hours clear,\nU-T-C's the ref-er-ence we re-vere!\n\nVERSION E (14 words):\nTWEN-ty-FOUR zones SPLIT the day,\nGREEN-wich ZE-ro—U-T-C's way,\nPRIME Me-RID-i-an's PLAY!"
+                },
+                {
+                        "id": "LG-01",
+                        "category": "Language",
+                        "neutral": "The eight parts of speech in English are nouns that name people, places, things, or ideas; pronouns that replace nouns; verbs that express actions or states; adjectives that describe nouns; adverbs that modify verbs, adjectives, or other adverbs; prepositions that show relationships; conjunctions that connect words or phrases; and interjections that express emotion.",
+                        "prosodic": "VERSIONS A, B (Removed C, D, E for content faults)\n\nVERSION A (28 words):\nEight parts of speech we use each day:\nNouns name things in ev-ery way,\nPro-nouns re-place, verbs show the play,\nAd-jec-tives de-scribe what we say,\nAd-verbs mod-i-fy—the dis-play,\nPrep-o-si-tions show how things stay,\nCon-junc-tions con-nect the ar-ray,\nIn-ter-jec-tions ex-press—hooray!\n\nVERSION B (22 words):\nNouns name, pro-nouns re-place,\nVerbs act, ad-jec-tives grace,\nAd-verbs mod-i-fy with pace,\nPrep-o-si-tions show the space,\nCon-junc-tions join, in-ter-jec-tions—face!"
+                },
+                {
+                        "id": "LG-02",
+                        "category": "Language",
+                        "neutral": "Subject-verb agreement requires that singular subjects take singular verbs and plural subjects take plural verbs, with special attention needed for compound subjects, indefinite pronouns, and subjects separated from verbs by phrases.",
+                        "prosodic": "VERSION A (20 words):\nSub-ject-verb a-gree-ment's clear and true:\nSin-gu-lar sub-jects, sin-gu-lar verbs too,\nPlu-ral sub-jects, plu-ral verbs through—\nCom-pounds and pro-nouns—watch what you do!\n\nVERSION B (Modified by user) (18 words):\nSin-gu-lar with sin-gu-lar must pair,\nPlu-ral with plu-ral—ev-ery-where,\nCom-pounds, pro-nouns need spe-cial care—\nSub-ject-verb a-gree-ment, keep it there!"
+                },
+                {
+                        "id": "LG-03",
+                        "category": "Language",
+                        "neutral": "The past perfect tense is formed using 'had' plus the past participle and indicates an action that was completed before another past action, such as 'I had finished my homework before dinner started.'",
+                        "prosodic": "VERSIONS B, D, E\n\nVERSION B (16 words):\n\"Had\" plus past par-ti-ci-ple shows:\nAc-tion done be-fore what fol-lows,\nOne thing fin-ished, then time goes—\nPast per-fect tense—that's how it flows!\n\nVERSION D (22 words):\nUse \"had\" plus par-ti-ci-ple to say:\nSome-thing fin-ished ear-li-er that day,\nBe-fore an-oth-er past ac-tion's way—\nPast per-fect shows the time dis-play!\n\nVERSION E (14 words):\n\"HAD\" plus PAST par-TIC-i-ple STATE:\nFirst AC-tion—fin-ished FATE,\nBE-fore the SEC-ond—that's the DATE!"
+                },
+                {
+                        "id": "LG-04",
+                        "category": "Language",
+                        "neutral": "There are three types of sentences: simple sentences contain one independent clause, compound sentences have two or more independent clauses joined by coordinating conjunctions, and complex sentences combine an independent clause with one or more dependent clauses using subordinating conjunctions.",
+                        "prosodic": "ALL VERSIONS (A, B, C, D, E)\n\nVERSION A (24 words):\nThree sen-tence types we write each day:\nSim-ple—one clause on dis-play,\nCom-pound—two joined in their way,\nCom-plex—in-de-pen-dent plus de-pen-dent's play!\n\nVERSION B (20 words):\nSim-ple sen-tence: one clause stands,\nCom-pound joins with con-junc-tion's bands,\nCom-plex mixes—un-der-stands—\nIn-de-pen-dent, de-pen-dent hands!\n\nVERSION C (22 words):\nSIM-ple: ONE clause—that's the DEAL,\nCOM-pound: TWO joined—the ap-PEAL,\nCOM-plex: MIX-es—what's re-AL—\nThree sen-TENCE types—the i-DE-al!\n\nVERSION D (26 words):\nSim-ple sen-tenc-es have one clause a-lone,\nCom-pound sen-tenc-es join two—they're known,\nCom-plex sen-tenc-es mix the tone—\nIn-de-pen-dent, de-pen-dent—both are shown!\n\nVERSION E (16 words):\nSIM-ple: ONE clause CLEAR,\nCOM-pound: TWO clauses NEAR,\nCOM-plex: MIX-es HERE—\nThree types AP-PEAR!"
+                },
+                {
+                        "id": "LG-05",
+                        "category": "Language",
+                        "neutral": "Homophones are words that sound the same but have different meanings and spellings, such as their, there, and they're, or to, two, and too. These are common sources of writing errors.",
+                        "prosodic": "VERSIONS C, E\n\nVERSION C (20 words):\nHOM-o-PHONES sound a-LIKE,\nSPELL-ings DIF-fer—take a HIKE:\nTHEIR, THERE, THEY'RE—what you LIKE,\nTO, TWO, TOO—get it RIGHT!\n\nVERSION E (14 words):\nSAME sound, DIF-fer-ent SPELL:\nTheir/there/they're—can you TELL?\nTo/two/too—know them WELL!"
+                },
+                {
+                        "id": "GK-01",
+                        "category": "General",
+                        "neutral": "The scientific method follows these steps: first, make an observation about a phenomenon. Second, form a hypothesis to explain it. Third, design and conduct experiments to test the hypothesis. Fourth, analyze the data collected. Finally, draw conclusions and communicate results, then repeat the process if needed.",
+                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (20 words):\nOb-serve, then form hy-poth-e-sis true,\nEx-per-i-ment, test what you knew,\nAn-a-lyze da-ta through and through,\nCon-clude, com-mu-ni-cate—that's the view!\n\nVERSION C (22 words):\nOB-serve the WORLD, form HY-POTH-e-sis BRIGHT,\nEX-per-i-MENT to test what's RIGHT,\nAN-a-lyze DA-ta in the LIGHT,\nCON-clude and SHARE—the sci-en-tif-ic SIGHT!\n\nVERSION D (26 words):\nSci-en-tif-ic meth-od guides the way we know:\nFirst ob-serve the world—the show,\nForm hy-poth-e-sis to grow,\nTest through ex-per-i-ments' flow,\nAn-a-lyze, con-clude—let knowl-edge glow!\n\nVERSION E (16 words):\nOB-serve, HY-POTH-e-size the CALL,\nEX-per-i-MENT—test it ALL,\nAN-a-lyze, CON-clude—stand TALL!"
+                },
+                {
+                        "id": "GK-02",
+                        "category": "General",
+                        "neutral": "Good sleep hygiene includes going to bed at the same time every night, avoiding screens one hour before bedtime, keeping the bedroom cool and dark, and limiting caffeine after 2 PM.",
+                        "prosodic": "VERSIONS B, C, D, E\n\nVERSION B (18 words):\nSame time to bed each night you go,\nScreens off one hour—let it flow,\nCool and dark room—soft and low,\nCaf-feine ends at two—you know!\n\nVERSION C (22 words):\nSAME bed-TIME ev-ery NIGHT,\nNO screens ONE hour—that's RIGHT,\nCOOL and DARK room—out of SIGHT,\nCAF-feine STOPS at TWO—sleep TIGHT!\n\nVERSION D (24 words):\nSleep hy-giene for rest-ful nights so sweet:\nReg-u-lar bed-time keeps the beat,\nOne hour no screens—the treat,\nCool, dark, caf-feine-free—com-plete!\n\nVERSION E (14 words):\nSAME time BED, screens OFF,\nCOOL, DARK room—don't SCOFF,\nCAF-feine TWO—cut OFF!"
+                },
+                {
+                        "id": "GK-03",
+                        "category": "General",
+                        "neutral": "Effective time management involves setting SMART goals: Specific objectives that are clearly defined, Measurable progress that can be tracked, Achievable targets within your capabilities, Relevant to your priorities, and Time-bound with clear deadlines. This framework helps ensure productive use of time.",
+                        "prosodic": "VERSIONS B, C, D\n\nVERSION B (18 words):\nSpe-cif-ic, meas-ur-a-ble goals we set,\nA-chiev-a-ble—no re-gret,\nRel-e-vant to your mind-set,\nTime-bound—don't for-get!\n\nVERSION C (20 words):\nSPE-cif-IC goals, MEAS-ure-A-ble TRACK,\nA-CHIEV-a-ble—stay on TACK,\nREL-e-vant—don't look BACK,\nTIME-bound DEAD-lines—that's the KNACK!\n\nVERSION D (24 words):\nSMART goals guide your path to suc-cess:\nSpe-cif-ic aims to ad-dress,\nMeas-ur-a-ble prog-ress,\nA-chiev-a-ble—no stress,\nRel-e-vant—im-press,\nTime-bound—noth-ing less!"
+                },
+                {
+                        "id": "GK-04",
+                        "category": "General",
+                        "neutral": "The four basic tastes detected by human taste buds are sweet, salty, sour, and bitter. Scientists have also identified umami, a savory taste found in foods like cheese and mushrooms.",
+                        "prosodic": "VERSIONS A, B, C, E\n\nVERSION A (18 words):\nFour ba-sic tastes we know by heart:\nSweet, sal-ty, sour—each a part,\nBit-ter too—the taste chart,\nPlus u-ma-mi—sa-vo-ry's art!\n\nVERSION B (16 words):\nSweet, sal-ty, sour, and bit-ter taste,\nFour ba-sic fla-vors we have traced,\nU-ma-mi—sa-vo-ry graced—\nFive tastes placed!\n\nVERSION C (20 words):\nSWEET and SAL-ty, SOUR and BIT-ter TOO,\nFOUR ba-sic TASTES our tongues re-VIEW,\nU-MA-mi SA-vo-ry—the NEW,\nFIVE tastes we CHEW!\n\nVERSION E (12 words):\nSWEET, SAL-ty, SOUR, BIT-ter FOUND,\nU-MA-mi SA-vo-ry SOUND—\nFIVE tastes A-ROUND!"
+                },
+                {
+                        "id": "GK-05",
+                        "category": "General",
+                        "neutral": "Critical thinking requires several skills: analyzing information by breaking it into components, evaluating sources for credibility and bias, synthesizing different viewpoints to form conclusions, making logical inferences based on evidence, and questioning assumptions rather than accepting claims at face value.",
+                        "prosodic": "VERSIONS A, B, C, D\n\nVERSION A (26 words):\nCrit-i-cal think-ing skills we need:\nAn-a-lyze in-for-ma-tion—take the lead,\nE-val-u-ate sourc-es—pro-ceed,\nSyn-the-size view-points—plant the seed,\nIn-fer from ev-i-dence—suc-ceed,\nQues-tion as-sump-tions—that's the creed!\n\nVERSION B (20 words):\nAn-a-lyze, e-val-u-ate what you see,\nSyn-the-size dif-fer-ent views—be free,\nIn-fer from ev-i-dence—the key,\nQues-tion claims crit-i-cal-ly!\n\nVERSION C (24 words):\nAN-a-lyze IN-fo, break it DOWN,\nE-VAL-u-ate SOURC-es all a-ROUND,\nSYN-the-size VIEW-points that are FOUND,\nIN-fer, QUES-tion—crit-i-cal SOUND!\n\nVERSION D (28 words):\nCrit-i-cal think-ing means you must:\nBreak down in-fo—gain the trust,\nE-val-u-ate with-out dis-gust,\nSyn-the-size views—it's a must,\nIn-fer, ques-tion what's dis-cussed—\nThink be-yond the sur-face crust!"
+                }
+        ],
+        "digit_span": [
+                {
+                        "id": "DS-01",
+                        "raw": "8 6 4 5 4 2 8 4 1 0 3 6",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-02",
+                        "raw": "6 4 8 5 6 2 8 0 2 3 2 8",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-03",
+                        "raw": "8 3 5 8 1 4 6 1 8 7 9 2",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-04",
+                        "raw": "6 8 5 0 6 5 9 0 5 0 7 5",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-05",
+                        "raw": "9 0 6 3 1 8 3 8 5 0 4 1",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-06",
+                        "raw": "4 3 9 8 2 4 5 2 5 1 9 4",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-07",
+                        "raw": "5 0 5 0 7 4 7 0 3 4 1 7",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-08",
+                        "raw": "0 9 8 2 6 7 9 6 2 3 4 2",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-09",
+                        "raw": "1 3 0 8 4 5 0 2 6 1 4 6",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-10",
+                        "raw": "7 1 8 1 8 3 8 4 9 2 4 0",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-11",
+                        "raw": "7 9 6 7 3 8 6 8 7 1 7 3",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-12",
+                        "raw": "3 7 5 3 5 9 0 9 8 6 0 5",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-13",
+                        "raw": "9 2 8 3 9 5 2 3 4 6 5 7",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-14",
+                        "raw": "9 1 8 1 8 0 3 9 8 2 7 8",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-15",
+                        "raw": "2 8 7 0 4 2 0 7 5 3 0 4",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-16",
+                        "raw": "1 8 0 1 7 4 9 3 1 0 7 8",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-17",
+                        "raw": "3 0 6 1 6 0 8 0 3 8 4 5",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-18",
+                        "raw": "5 8 9 6 0 8 5 1 0 4 5 1",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-19",
+                        "raw": "5 2 8 3 7 4 7 1 4 3 1 6",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-20",
+                        "raw": "4 3 7 5 2 3 8 9 2 4 1 6",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-21",
+                        "raw": "7 8 6 8 9 2 8 2 9 8 5 7",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-22",
+                        "raw": "4 6 1 9 3 2 3 6 8 5 8 7",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-23",
+                        "raw": "8 2 4 3 7 4 8 3 5 0 1 5",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-24",
+                        "raw": "7 1 6 1 8 6 3 2 1 4 1 4",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-25",
+                        "raw": "5 7 5 2 4 6 5 9 8 2 6 1",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-26",
+                        "raw": "4 3 8 5 6 4 1 4 6 3 5 0",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-27",
+                        "raw": "0 9 0 5 7 6 9 4 7 2 6 3",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-28",
+                        "raw": "3 5 3 6 1 7 3 5 8 2 9 7",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-29",
+                        "raw": "7 1 2 3 6 3 6 7 5 3 5 6",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "DS-30",
+                        "raw": "3 2 7 0 7 1 6 7 1 2 7 0",
+                        "prosodic": "nan"
+                }
+        ],
+        "word_list": [
+                {
+                        "id": "WL-01",
+                        "raw": "hollow, shovel, canvas, candle, rocket, ripple, filter, pencil, ember, rivet, curtain, ladder",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-02",
+                        "raw": "basket, rivet, funnel, ledger, hollow, shutter, meter, ladle, pouch, pepper, pencil, window",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-03",
+                        "raw": "smithy, shutter, spring, funnel, hammer, mirror, lever, rivet, racket, lantern, beetle, handle",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-04",
+                        "raw": "copper, bottle, bucket, lantern, staple, buffer, harbor, clamp, paper, thimble, river, marble",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-05",
+                        "raw": "granite, racket, pouch, beacon, ladle, funnel, cushion, camera, bottle, anvil, torch, sconce",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-06",
+                        "raw": "pebble, trowel, filter, quartz, candle, bracket, curtain, ladder, sconce, valve, garden, cotton",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-07",
+                        "raw": "copper, silver, socket, shovel, thimble, meter, ledger, hinge, vessel, buffer, bracket, garden",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-08",
+                        "raw": "carpet, basket, goblet, lamp, galley, trowel, copper, module, shutter, meadow, biscuit, plaster",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-09",
+                        "raw": "mirror, brace, basket, shutter, ledger, trowel, hinge, vessel, ember, lathe, cotton, mallet",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-10",
+                        "raw": "beacon, harbor, hammer, sconce, module, spigot, pencil, sugar, candle, rivet, pebble, saddle",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-11",
+                        "raw": "camera, copper, harbor, ladle, mirror, brace, notch, helmet, sconce, hollow, sugar, onyx",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-12",
+                        "raw": "pepper, handle, biscuit, compass, vessel, canvas, thimble, buffer, hazel, chisel, gadget, shovel",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-13",
+                        "raw": "gadget, beetle, piston, silver, anchor, meadow, paddle, trowel, curtain, carpet, paper, ladder",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-14",
+                        "raw": "candle, ember, cobalt, lamp, hollow, ladder, anvil, paper, trestle, goblet, smithy, bottle",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-15",
+                        "raw": "shutter, cushion, pouch, river, window, nozzle, tripod, meadow, module, kiln, cotton, mallet",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-16",
+                        "raw": "jacket, tablet, linen, vessel, chisel, gadget, marble, onyx, valve, sugar, curtain, staple",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-17",
+                        "raw": "granite, canvas, window, socket, plaster, handle, beacon, anvil, curtain, cotton, lamp, jacket",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-18",
+                        "raw": "ladle, chisel, kiln, compass, silver, lever, button, candle, filter, anvil, garden, vessel",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-19",
+                        "raw": "trowel, module, beacon, shovel, thimble, trestle, kiln, paper, hollow, smithy, apron, staple",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-20",
+                        "raw": "shovel, basket, jacket, copper, cobalt, clamp, meter, hollow, pouch, lathe, linen, ripple",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-21",
+                        "raw": "module, staple, hollow, notch, torch, river, valve, pebble, rocket, beetle, copper, pencil",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-22",
+                        "raw": "tablet, granite, anvil, bottle, button, module, hazel, anchor, handle, jacket, rocket, sugar",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-23",
+                        "raw": "vessel, piston, river, brace, pencil, anvil, harbor, quartz, plaster, helmet, saddle, buffer",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-24",
+                        "raw": "pouch, tripod, trowel, linen, mirror, window, basket, pillow, piston, magnet, spring, harbor",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-25",
+                        "raw": "linen, ladle, quartz, pencil, beacon, spring, packet, buffer, pebble, rocket, apron, gravel",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-26",
+                        "raw": "gadget, brace, hazel, pepper, plaster, rivet, quartz, biscuit, nozzle, smithy, saddle, beetle",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-27",
+                        "raw": "magnet, pepper, marble, trestle, meter, trowel, tripod, nozzle, mirror, smithy, paddle, pebble",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-28",
+                        "raw": "buffer, socket, module, pencil, lamp, apron, hinge, silver, camera, paper, cotton, granite",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-29",
+                        "raw": "handle, beetle, basket, meadow, bucket, rocket, clamp, marble, shovel, gadget, socket, curtain",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "WL-30",
+                        "raw": "shovel, beetle, vessel, thimble, saddle, window, onyx, bracket, button, paddle, ledger, hammer",
+                        "prosodic": "nan"
+                }
+        ],
+        "pseudoword": [
+                {
+                        "id": "PW-01",
+                        "raw": "wey, rol, sof, fes, tab, keb, sos, fuk, felt, fer, viv, pund",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-02",
+                        "raw": "smash, stru, sprer, yup, mip, clug, skig, rug, prum, sway, splal, keg",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-03",
+                        "raw": "swen, fut, gerk, pirk, pig, glush, flast, lor, birn, sluw, grag, trot",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-04",
+                        "raw": "prif, gif, glew, yaf, mich, buf, plem, fras, plun, friv, rav, fot",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-05",
+                        "raw": "snad, clay, stus, map, trag, plas, graw, pim, ban, sploc, rur, streg",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-06",
+                        "raw": "stok, luch, tig, mil, tug, strel, yap, plo, neb, ren, strag, gag",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-07",
+                        "raw": "gosh, fub, gad, frig, swow, hisk, lisk, nich, viv, hef, cip, kost",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-08",
+                        "raw": "spuld, siv, fik, pab, preb, trarn, cild, yirk, skik, foh, yif, kik",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-09",
+                        "raw": "flont, neh, cob, nef, tot, trech, pler, bruy, ril, spisk, hoch, ken",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-10",
+                        "raw": "mic, nog, nam, strir, crost, wiv, gop, nor, rom, splay, cromp, corm",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-11",
+                        "raw": "sprot, stul, mey, coc, lam, stoc, spes, gon, tund, suk, swot, swul",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-12",
+                        "raw": "tork, sec, flut, bleb, cip, hun, nint, spriy, nop, droh, plent, spud",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-13",
+                        "raw": "clor, gish, lok, guf, fup, fah, kov, teb, glunt, prak, slak, tap",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-14",
+                        "raw": "pisk, spris, mes, sney, fev, splig, flurn, blomp, wud, fik, splis, clel",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-15",
+                        "raw": "rod, snosh, swash, civ, splac, skant, vag, kos, trug, cram, tat, san",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-16",
+                        "raw": "hat, muf, luv, sus, nuch, blal, drew, spig, flon, crid, crel, lup",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-17",
+                        "raw": "hut, dror, korn, glah, bep, seb, fuv, liy, kak, vog, yev, los",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-18",
+                        "raw": "kach, steb, grap, blish, cles, drev, rev, pip, lih, fet, cric, flurm",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-19",
+                        "raw": "wun, crab, kif, spre, blel, spran, ciy, spim, moh, trir, spuv, spun",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-20",
+                        "raw": "swaf, hirn, much, clac, nam, munt, slac, frof, sket, sprar, yip, cof",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-21",
+                        "raw": "hur, drop, bog, skum, sprow, skil, halt, swent, splis, waf, slog, crel",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-22",
+                        "raw": "blon, prep, spam, cik, dis, prant, swab, sprilt, yar, stov, bast, grav",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-23",
+                        "raw": "dos, carm, feh, mil, spar, smah, swar, glimp, runt, sprarm, grun, crosh",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-24",
+                        "raw": "clip, fred, pral, blod, yust, drap, vuw, spop, smot, fuh, grev, stral",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-25",
+                        "raw": "ris, lul, tast, sprork, snisk, splik, los, sworn, clirn, fat, grog, fluy",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-26",
+                        "raw": "snow, clih, drild, komp, sprof, tot, yok, bish, rur, grok, sprint, drop",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-27",
+                        "raw": "bomp, mul, nurn, suh, vuch, fruw, fleg, vin, spamp, skok, skid, glew",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-28",
+                        "raw": "kut, cliv, glark, spuh, glomp, yof, wum, spred, dot, blech, splont, smurk",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-29",
+                        "raw": "grin, brok, vum, strirm, brelt, bind, plesk, vuv, swarm, cund, snet, snam",
+                        "prosodic": "nan"
+                },
+                {
+                        "id": "PW-30",
+                        "raw": "fre, blol, snap, tot, pul, vig, drit, san, skent, pild, ceg, slorn",
+                        "prosodic": "nan"
+                }
+        ]
+};
+
+        // Dataset metadata
+        const datasets = {
+            phase1: {
+                name: "Phase 1: Simple Sentences",
+                icon: "📝",
+                count: 42,
+                description: "Initial exploration testing general-purpose LLMs (Claude, ChatGPT, Gemini) for transforming simple safety, health, and learning sentences into prosodic versions. Focus on establishing baseline transformation quality and identifying effective prosodic patterns. Each entry has TWO prosodic versions for comparison."
+            },
+            phase2: {
+                name: "Phase 2: Complex Educational Content",
+                icon: "📚",
+                count: 30,
+                description: "Advanced testing with complex educational sentences across Biology, History, Mathematics, Geography, Language, and General Knowledge. Development of 'super-rhythmic melodic style' with strong syllable emphasis, melodic flow, and AAAA rhyme schemes optimized for complex information retention."
+            },
+            digit_span: {
+                name: "Digit Span",
+                icon: "🔢",
+                count: 30,
+                phase: 3,
+                description: "Standard forward digit span sequences from cognitive psychology research. Used to isolate prosodic effects on verbal working memory without prior knowledge contamination. Validates memory enhancement for novel numerical information."
+            },
+            word_list: {
+                name: "Word Lists",
+                icon: "📋",
+                count: 30,
+                phase: 3,
+                description: "Standard word list recall tasks using unrelated concrete nouns. Controls for semantic associations and prior knowledge to measure pure prosodic memory enhancement effects in verbal working memory tasks."
+            },
+            pseudoword: {
+                name: "Pseudowords",
+                icon: "🔤",
+                count: 30,
+                phase: 3,
+                description: "Standard pseudoword repetition tasks using pronounceable non-words. Eliminates all lexical and semantic factors to isolate prosodic rhythm and melody effects on phonological working memory encoding."
+            }
+        };
+
+        // Authentication
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            updateAuthUI();
+        });
+
+        function updateAuthUI() {
+            const userDisplay = document.getElementById('userDisplay');
+            const signedOutDisplay = document.getElementById('signedOutDisplay');
+            const authBtn = document.getElementById('authBtn');
+
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.displayName;
+                document.getElementById('userEmail').textContent = currentUser.email;
+                document.getElementById('userAvatar').src = currentUser.photoURL;
+                userDisplay.style.display = 'flex';
+                signedOutDisplay.style.display = 'none';
+                authBtn.textContent = 'Sign Out';
+                authBtn.classList.add('btn-secondary');
+            } else {
+                userDisplay.style.display = 'none';
+                signedOutDisplay.style.display = 'block';
+                authBtn.textContent = 'Sign In with Google';
+                authBtn.classList.remove('btn-secondary');
+            }
+        }
+
+        async function handleAuth() {
+            if (currentUser) {
+                await auth.signOut();
+            } else {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    await auth.signInWithPopup(provider);
+                } catch (error) {
+                    console.error('Auth error:', error);
+                    alert('Sign in failed: ' + error.message);
+                }
+            }
+        }
+
+        // Render datasets
+        function renderDatasets() {
+            const container = document.getElementById('datasetsContainer');
+            
+            // Render Phase 1 and Phase 2 normally
+            for (const [key, meta] of Object.entries(datasets)) {
+                if (!meta.phase || meta.phase <= 2) {
+                    const section = document.createElement('div');
+                    section.className = 'dataset-section';
+                    section.innerHTML = `
+                        <div class="section-header" onclick="toggleSection('${key}')">
+                            <div class="section-title">
+                                <span class="section-icon">${meta.icon}</span>
+                                ${meta.name}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <span class="section-badge">${meta.count} entries</span>
+                                <span class="toggle-icon collapsed" id="toggle-${key}">▼</span>
+                            </div>
+                        </div>
+                        <div class="section-description">
+                            ${meta.description}
+                        </div>
+                        <div class="entries-grid" id="grid-${key}"></div>
+                    `;
+                    container.appendChild(section);
+                    renderEntries(key);
+                }
+            }
+            
+            // Create Phase 3 header
+            const phase3Header = document.createElement('div');
+            phase3Header.className = 'phase-header';
+            phase3Header.innerHTML = `
+                <div class="phase-title">
+                    🧠 Phase 3: Working Memory Validation Tasks
+                </div>
+                <div class="phase-subtitle">
+                    Three standardized cognitive psychology tasks for controlled experimental validation of prosodic memory enhancement effects
+                </div>
+            `;
+            container.appendChild(phase3Header);
+            
+            // Render Phase 3 datasets as subsections
+            for (const [key, meta] of Object.entries(datasets)) {
+                if (meta.phase === 3) {
+                    const section = document.createElement('div');
+                    section.className = 'dataset-section phase3-subsection';
+                    section.innerHTML = `
+                        <div class="section-header" onclick="toggleSection('${key}')">
+                            <div class="section-title">
+                                <span class="section-icon">${meta.icon}</span>
+                                ${meta.name}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <span class="section-badge">${meta.count} entries</span>
+                                <span class="toggle-icon collapsed" id="toggle-${key}">▼</span>
+                            </div>
+                        </div>
+                        <div class="section-description">
+                            ${meta.description}
+                        </div>
+                        <div class="entries-grid" id="grid-${key}"></div>
+                    `;
+                    container.appendChild(section);
+                    renderEntries(key);
+                }
+            }
+        }
+
+        function toggleSection(sectionId) {
+            const grid = document.getElementById(`grid-${sectionId}`);
+            const toggle = document.getElementById(`toggle-${sectionId}`);
+            
+            grid.classList.toggle('active');
+            toggle.classList.toggle('collapsed');
+        }
+
+        function renderEntries(sectionKey) {
+            const grid = document.getElementById(`grid-${sectionKey}`);
+            const entries = DATASET[sectionKey];
+            
+            entries.forEach(entry => {
+                const card = document.createElement('div');
+                card.className = 'entry-card';
+                card.onclick = () => openModal(entry, sectionKey);
+                
+                if (sectionKey === 'phase1') {
+                    // Show BOTH versions
+                    card.innerHTML = `
+                        <div class="entry-id">${entry.id}<span class="entry-category">${entry.category}</span></div>
+                        <div class="entry-neutral">${escapeHtml(entry.neutral)}</div>
+                        <div class="version-label">Version 1:</div>
+                        <div class="entry-prosodic">${escapeHtml(entry.prosodic_v1)}</div>
+                        <div class="version-label">Version 2:</div>
+                        <div class="entry-prosodic">${escapeHtml(entry.prosodic_v2)}</div>
+                        <div class="comments-count">💬 <span id="count-${entry.id}">0</span> comments</div>
+                    `;
+                } else if (sectionKey === 'phase2') {
+                    card.innerHTML = `
+                        <div class="entry-id">${entry.id}<span class="entry-category">${entry.category}</span></div>
+                        <div class="entry-neutral">${escapeHtml(entry.neutral)}</div>
+                        <div class="entry-prosodic">${escapeHtml(entry.prosodic).replace(/\n/g, '<br>')}</div>
+                        <div class="comments-count">💬 <span id="count-${entry.id}">0</span> comments</div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="entry-id">${entry.id}</div>
+                        <div class="entry-neutral">${escapeHtml(entry.raw)}</div>
+                        ${entry.prosodic !== 'nan' ? 
+                            `<div class="entry-prosodic">${escapeHtml(entry.prosodic)}</div>` : 
+                            '<div style="color: var(--text-muted); font-style: italic;">Prosodic version pending</div>'}
+                        <div class="comments-count">💬 <span id="count-${entry.id}">0</span> comments</div>
+                    `;
+                }
+                
+                grid.appendChild(card);
+                listenToComments(entry.id);
+            });
+        }
+
+        function openModal(entry, sectionKey) {
+            currentEntryId = entry.id;
+            document.getElementById('modalEntryId').textContent = entry.id;
+            
+            if (sectionKey === 'phase1') {
+                document.getElementById('modalNeutral').textContent = entry.neutral;
+                document.getElementById('modalProsodic').textContent = 
+                    `Version 1:\n${entry.prosodic_v1}\n\nVersion 2:\n${entry.prosodic_v2}`;
+            } else if (sectionKey === 'phase2') {
+                document.getElementById('modalNeutral').textContent = entry.neutral;
+                document.getElementById('modalProsodic').textContent = entry.prosodic;
+            } else {
+                document.getElementById('modalNeutral').textContent = entry.raw;
+                document.getElementById('modalProsodic').textContent = 
+                    entry.prosodic !== 'nan' ? entry.prosodic : 'Prosodic version pending development';
+            }
+            
+            document.getElementById('entryModal').classList.add('active');
+            loadComments(entry.id);
+        }
+
+        function closeModal() {
+            document.getElementById('entryModal').classList.remove('active');
+            currentEntryId = null;
+        }
+
+        function listenToComments(entryId) {
+            database.ref(`comments/${entryId}`).on('value', snapshot => {
+                const count = snapshot.numChildren();
+                const countEl = document.getElementById(`count-${entryId}`);
+                if (countEl) countEl.textContent = count;
+            });
+        }
+
+        function loadComments(entryId) {
+            const commentsList = document.getElementById('commentsList');
+            commentsList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted);">Loading comments...</div>';
+            
+            database.ref(`comments/${entryId}`).once('value', snapshot => {
+                const comments = [];
+                snapshot.forEach(child => {
+                    comments.push({id: child.key, ...child.val()});
+                });
+                
+                comments.sort((a, b) => b.timestamp - a.timestamp);
+                
+                if (comments.length === 0) {
+                    commentsList.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-muted);">No comments yet. Be the first!</div>';
+                } else {
+                    commentsList.innerHTML = comments.map(c => `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <img src="${c.photoURL}" class="comment-avatar" alt="${c.displayName}">
+                                <span class="comment-author">${c.displayName}</span>
+                                <span class="comment-time">${formatTime(c.timestamp)}</span>
+                            </div>
+                            <div class="comment-text">${escapeHtml(c.text)}</div>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
+        async function submitComment() {
+            if (!currentUser) {
+                alert('Please sign in to comment');
+                return;
+            }
+            
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            try {
+                await database.ref(`comments/${currentEntryId}`).push({
+                    text,
+                    userId: currentUser.uid,
+                    displayName: currentUser.displayName,
+                    photoURL: currentUser.photoURL,
+                    email: currentUser.email,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                
+                input.value = '';
+                loadComments(currentEntryId);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error posting comment');
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Close modal on outside click
+        document.getElementById('entryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize
+        window.onload = renderDatasets;
+    </script>
+</body>
+</html>
