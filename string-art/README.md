@@ -5,7 +5,7 @@
 
 A fully client-side web application that generates string art patterns from images using an **error-based greedy algorithm**. Upload an image, configure your frame, and get a step-by-step CSV file showing which pins to connect.
 
-🔗 **Live Demo:** [https://your-username.github.io/html-apps/string-art/](https://your-username.github.io/html-apps/string-art/)
+🔗 **Live Demo:** [https://HamedGhaneS.github.io/html-apps/string-art/](https://your-username.github.io/html-apps/string-art/)
 
 ![String Art Generator Preview](preview.png)
 
