@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiment Guide | Cardiac-Locked EEG-BCI Study | University of Glasgow</title>
+    <!--
+    ============================================================================
+    Cardiac-Locked EEG Experiment — Definitive Protocol & Conductor's Guide
+    
+    Author: Hamed Ghane
+    Date: February 11, 2026
+    
+    School of Psychology and Neuroscience
+    University of Glasgow
+    
+    Based on: Fouragnan et al. (2024) Nature Communications
+    ============================================================================
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0f172a;
+            --ink-soft: #334155;
+            --ink-muted: #64748b;
+            --surface: #ffffff;
+            --surface-raised: #f8fafc;
+            --surface-sunken: #f1f5f9;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --accent: #dc2626;
+            --accent-soft: #fef2f2;
+            --accent-mid: #fee2e2;
+            --blue: #1e40af;
+            --blue-soft: #eff6ff;
+            --blue-mid: #dbeafe;
+            --teal: #0f766e;
+            --teal-soft: #f0fdfa;
+            --amber: #b45309;
+            --amber-soft: #fffbeb;
+            --green: #15803d;
+            --green-soft: #f0fdf4;
+            --purple: #7c3aed;
+            --purple-soft: #f5f3ff;
+            --systole: #dc2626;
+            --systole-bg: #fef2f2;
+            --diastole: #1e40af;
+            --diastole-bg: #eff6ff;
+            --radius: 0.625rem;
+            --radius-lg: 1rem;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--ink);
+            background: var(--surface-sunken);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page { max-width: 1060px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+        /* ── Header ── */
+        .hero {
+            background: var(--ink);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 3rem 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(220,38,38,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(30,64,175,0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-eyebrow {
+            font-size: 0.8rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 0.75rem;
+        }
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+        .hero .subtitle { font-size: 1.1rem; opacity: 0.75; margin-bottom: 1.25rem; }
+        .hero-meta {
+            display: flex; flex-wrap: wrap; gap: 1.5rem;
+            font-size: 0.85rem; opacity: 0.55;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.35rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        /* ── Nav ── */
+        .toc {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        .toc h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--ink-muted); margin-bottom: 1rem; }
+        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 2rem; }
+        .toc a {
+            color: var(--ink-soft);
+            text-decoration: none;
+            font-size: 0.92rem;
+            padding: 0.3rem 0;
+            display: block;
+            border-bottom: 1px solid transparent;
+            transition: color 0.15s;
+        }
+        .toc a:hover { color: var(--accent); }
+        .toc a .num { color: var(--ink-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; margin-right: 0.5rem; }
+
+        /* ── Sections ── */
+        section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        section h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.55rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+        section h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 1.75rem 0 0.75rem;
+            color: var(--ink);
+        }
+        section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.25rem 0 0.5rem;
+            color: var(--ink-soft);
+        }
+        p { margin-bottom: 1rem; }
+        ul, ol { margin: 0.75rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.4rem; }
+
+        /* ── Stat Cards ── */
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .stat {
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem 1rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.1;
+        }
+        .stat-label { font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.25rem; }
+
+        /* ── Callout Boxes ── */
+        .callout {
+            padding: 1.15rem 1.4rem;
+            border-radius: var(--radius);
+            margin: 1.25rem 0;
+            border-left: 4px solid;
+        }
+        .callout p:last-child { margin-bottom: 0; }
+        .callout-red    { background: var(--accent-soft); border-color: var(--accent); }
+        .callout-blue   { background: var(--blue-soft); border-color: var(--blue); }
+        .callout-teal   { background: var(--teal-soft); border-color: var(--teal); }
+        .callout-amber  { background: var(--amber-soft); border-color: var(--amber); }
+        .callout-green  { background: var(--green-soft); border-color: var(--green); }
+        .callout-purple { background: var(--purple-soft); border-color: var(--purple); }
+        .callout strong { display: block; margin-bottom: 0.35rem; }
+
+        /* ── Tables ── */
+        table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.93rem; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--surface-sunken); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-muted); }
+        tr:last-child td { border-bottom: none; }
+        .row-highlight { background: var(--amber-soft); font-weight: 600; }
+
+        /* ── Cardiac Cards ── */
+        .cardiac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.5rem 0; }
+        .cardiac-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .cardiac-card-header { padding: 0.9rem 1.25rem; color: white; font-weight: 600; font-size: 1.05rem; }
+        .cardiac-card-header.systole { background: var(--systole); }
+        .cardiac-card-header.diastole { background: var(--diastole); }
+        .cardiac-card-body { padding: 0.5rem 0; }
+        .timing-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.6rem 1.25rem;
+        }
+        .timing-row:nth-child(odd) { background: var(--surface-raised); }
+        .timing-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 0.85rem;
+            padding: 0.2rem 0.6rem; border-radius: 1rem; color: white;
+        }
+        .timing-badge.sys { background: var(--systole); }
+        .timing-badge.dia { background: var(--diastole); }
+
+        /* ── Timeline ── */
+        .timeline-bar {
+            display: flex; align-items: stretch;
+            border-radius: var(--radius); overflow: hidden;
+            margin: 1.5rem 0; height: 56px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .tl-seg {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.3px;
+            padding: 0 0.5rem; white-space: nowrap; position: relative;
+        }
+        .tl-seg span:first-child { font-size: 0.68rem; opacity: 0.75; }
+        .tl-seg span:last-child { font-size: 0.82rem; }
+        .tl-iti    { background: #475569; flex: 1.25; }
+        .tl-dec    { background: #d97706; flex: 0.8; color: var(--ink); }
+        .tl-post   { background: #64748b; flex: 1; }
+        .tl-card   { background: var(--accent); flex: 0.87; }
+        .tl-fb     { background: var(--teal); flex: 2; }
+
+        /* ── Code Blocks (placeholder) ── */
+        .code-placeholder {
+            background: #1e293b;
+            color: #94a3b8;
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            border: 2px dashed #334155;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .code-placeholder .ph-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+        .code-placeholder .ph-title { color: #e2e8f0; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.25rem; }
+        .code-placeholder .ph-desc { color: #64748b; font-size: 0.82rem; }
+
+        /* ── Steps ── */
+        .step-list { counter-reset: step; list-style: none; padding: 0; margin: 1.25rem 0; }
+        .step-list li {
+            counter-increment: step;
+            padding: 1rem 1.25rem 1rem 3.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+            background: var(--surface-raised);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .step-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 1rem; top: 1rem;
+            width: 1.75rem; height: 1.75rem;
+            background: var(--ink);
+            color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem; font-weight: 600;
+        }
+        .step-list li strong { display: block; margin-bottom: 0.25rem; }
+
+        /* ── Checklist ── */
+        .checklist { list-style: none; padding: 0; margin: 1rem 0; }
+        .checklist li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li::before {
+            content: '☐';
+            position: absolute; left: 0.25rem; top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* ── Block Diagram ── */
+        .block-row {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        .block-chip {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .block-chip-header { padding: 0.5rem; color: white; font-weight: 600; font-size: 0.8rem; }
+        .block-chip-header.sys { background: var(--systole); }
+        .block-chip-header.dia { background: var(--diastole); }
+        .block-chip-body { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
+        .block-chip-body .pct {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6rem; font-weight: 700;
+            display: block; line-height: 1.2;
+        }
+        .block-chip-body .pct.sys-text { color: var(--systole); }
+        .block-chip-body .pct.dia-text { color: var(--diastole); }
+
+        /* ── Reversal Bar ── */
+        .reversal-bar { display: flex; border-radius: var(--radius); overflow: hidden; height: 48px; margin: 1rem 0; }
+        .reversal-half {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 600; font-size: 0.85rem;
+        }
+        .reversal-pre  { background: var(--teal); }
+        .reversal-post { background: var(--amber); color: var(--ink); }
+
+        /* ── ECG ── */
+        .ecg-box {
+            background: #0f172a;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+        }
+        .ecg-label { color: #00e676; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 0.75rem; }
+
+        /* ── Link Banner ── */
+        .link-banner {
+            display: flex; align-items: center; gap: 1rem;
+            background: var(--blue-soft);
+            border: 1px solid var(--blue-mid);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            text-decoration: none; color: var(--blue);
+            transition: box-shadow 0.15s;
+        }
+        .link-banner:hover { box-shadow: 0 4px 12px rgba(30,64,175,0.12); }
+        .link-banner .icon { font-size: 1.5rem; }
+        .link-banner .text strong { display: block; font-size: 1rem; }
+        .link-banner .text span { font-size: 0.85rem; color: var(--ink-muted); }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center; padding: 2rem 0; font-size: 0.85rem; color: var(--ink-muted);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .toc-grid { grid-template-columns: 1fr; }
+            .cardiac-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 1.7rem; }
+            .block-row { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- ═══════════════════════ HERO ═══════════════════════ -->
+    <header class="hero">
+        <span class="hero-badge">FINAL PROTOCOL — v3.0</span>
+        <div class="hero-eyebrow">University of Glasgow · School of Psychology &amp; Neuroscience</div>
+        <h1>Cardiac-Locked EEG Experiment</h1>
+        <p class="subtitle">Probabilistic Reversal Learning with Cardiac Phase Synchronisation — Complete Protocol &amp; Conductor's Guide</p>
+        <div class="hero-meta">
+            <span><strong>Author:</strong> Hamed Ghane</span>
+            <span><strong>Date:</strong> February 11, 2026</span>
+            <span><strong>Reference:</strong> Fouragnan et al. (2024) <em>Nat. Commun.</em></span>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════ TOC ═══════════════════════ -->
+    <nav class="toc">
+        <h2>Contents</h2>
+        <div class="toc-grid">
+            <a href="#overview"><span class="num">01</span> Experiment Overview</a>
+            <a href="#timing"><span class="num">02</span> Timing &amp; Duration</a>
+            <a href="#trial"><span class="num">03</span> Single Trial Timeline</a>
+            <a href="#cardiac"><span class="num">04</span> Cardiac Timing Conditions</a>
+            <a href="#blocks"><span class="num">05</span> Block Structure &amp; Reversals</a>
+            <a href="#rr"><span class="num">06</span> R-R Interval Mechanism</a>
+            <a href="#lsl"><span class="num">07</span> LSL Marker Reference</a>
+            <a href="#params"><span class="num">08</span> Technical Parameters</a>
+            <a href="#conductor"><span class="num">09</span> Conductor's Guide — Step by Step</a>
+            <a href="#scripts"><span class="num">10</span> Scripts Reference</a>
+            <a href="#troubleshooting"><span class="num">11</span> Troubleshooting</a>
+            <a href="#recruitment"><span class="num">12</span> Participant Recruitment</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════ 1. OVERVIEW ═══════════════════════ -->
+    <section id="overview">
+        <h2>1. Experiment Overview</h2>
+        <p>This experiment investigates how cardiac timing (systole vs. diastole) modulates the neural encoding of prediction errors during reward-based learning. Feedback is time-locked to specific phases of the participant's cardiac cycle while 64-channel EEG is recorded.</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">6</div>
+                <div class="stat-label">Blocks</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">70</div>
+                <div class="stat-label">Trials per Block</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">420</div>
+                <div class="stat-label">Total Trials</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">6</div>
+                <div class="stat-label">Cardiac Conditions</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">~49</div>
+                <div class="stat-label">Minutes (with breaks)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 2. TIMING ═══════════════════════ -->
+    <section id="timing">
+        <h2>2. Timing &amp; Duration</h2>
+
+        <table>
+            <thead>
+                <tr><th>Scope</th><th>Minimum</th><th>Typical</th><th>Maximum</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Per Trial</strong></td>
+                    <td>4.04 s</td>
+                    <td>5.62 s</td>
+                    <td>8.75 s</td>
+                </tr>
+                <tr>
+                    <td><strong>Per Block (70 trials)</strong></td>
+                    <td>4.71 min</td>
+                    <td>6.56 min</td>
+                    <td>10.21 min</td>
+                </tr>
+                <tr class="row-highlight">
+                    <td><strong>Total — 6 Blocks (task only)</strong></td>
+                    <td>28.3 min</td>
+                    <td>39.3 min</td>
+                    <td>61.3 min</td>
+                </tr>
+                <tr class="row-highlight">
+                    <td><strong>Total — with 5 breaks (≤ 2 min each)</strong></td>
+                    <td>28.3 min</td>
+                    <td>~49 min</td>
+                    <td>~71 min</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-amber">
+            <strong>⏱ Note on Duration</strong>
+            <p>Typical sessions last approximately <strong>49 minutes</strong> including breaks. Total session time with EEG setup is ~2 hours.</p>
+        </div>
+
+        <h3>Per-Trial Timing Breakdown</h3>
+        <table>
+            <thead>
+                <tr><th>Phase</th><th>Min</th><th>Typical</th><th>Max</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>ITI (Fixation)</strong></td><td>1.00 s</td><td>1.25 s</td><td>1.50 s</td><td>Uniform random [1.0, 1.5]</td></tr>
+                <tr><td><strong>Decision Phase</strong></td><td>0.00 s</td><td>0.50 s</td><td>1.25 s</td><td>Ends at response or timeout</td></tr>
+                <tr><td><strong>Post-Choice Fixation</strong></td><td>1.00 s</td><td>1.00 s</td><td>1.00 s</td><td>Fixed</td></tr>
+                <tr><td><strong>Cardiac Synchronisation</strong></td><td>0.04 s</td><td>0.87 s</td><td>3.00 s</td><td>R-peak wait + cardiac delay</td></tr>
+                <tr><td><strong>Feedback Display</strong></td><td>2.00 s</td><td>2.00 s</td><td>2.00 s</td><td>Fixed</td></tr>
+                <tr class="row-highlight"><td><strong>TOTAL</strong></td><td>4.04 s</td><td>5.62 s</td><td>8.75 s</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ═══════════════════════ 3. TRIAL TIMELINE ═══════════════════════ -->
+    <section id="trial">
+        <h2>3. Trial Timeline</h2>
+        <p>Each trial follows a fixed sequence. The only variable-length phase is the cardiac synchronisation period, which depends on the participant's heart rhythm.</p>
+
+        <div class="timeline-bar">
+            <div class="tl-seg tl-iti"><span>ITI</span><span>1.0–1.5 s</span></div>
+            <div class="tl-seg tl-dec"><span>DECISION</span><span>0–1.25 s</span></div>
+            <div class="tl-seg tl-post"><span>POST-CHOICE</span><span>1.0 s</span></div>
+            <div class="tl-seg tl-card"><span>♥ CARDIAC</span><span>~0.87 s</span></div>
+            <div class="tl-seg tl-fb"><span>FEEDBACK</span><span>2.0 s</span></div>
+        </div>
+
+        <!-- ── Complete Trial Timeline with Cardiac-Locked Feedback ── -->
+        <div class="ecg-box" style="padding: 1.75rem 2rem 1.5rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.25rem;">
+                <span style="font-size:1.1rem;">📋</span>
+                <span style="color:#94a3b8;font-family:'JetBrains Mono',monospace;font-size:0.9rem;font-weight:600;">Complete Trial Timeline with Cardiac-Locked Feedback</span>
+            </div>
+
+            <svg viewBox="0 0 920 420" style="width:100%;height:auto;" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrowW" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#64748b"/></marker>
+                    <filter id="glow"><feGaussianBlur stdDeviation="2" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+
+                <!-- ─── TOP ROW: Phase boxes ─── -->
+                <!-- ITI -->
+                <rect x="20" y="18" width="120" height="52" rx="8" fill="#334155" stroke="#475569" stroke-width="1.5"/>
+                <text x="80" y="38" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-weight="600">ITI</text>
+                <text x="80" y="55" fill="#e2e8f0" font-family="DM Sans,sans-serif" font-size="11" text-anchor="middle" font-weight="500">Fixation +</text>
+                <text x="80" y="82" fill="#64748b" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">1.0–1.5s</text>
+
+                <!-- Arrow -->
+                <line x1="145" y1="44" x2="168" y2="44" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowW)"/>
+
+                <!-- CHOICE -->
+                <rect x="172" y="18" width="130" height="52" rx="8" fill="#a16207" stroke="#ca8a04" stroke-width="1.5"/>
+                <text x="237" y="38" fill="#fef9c3" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-weight="600">CHOICE</text>
+                <text x="237" y="55" fill="white" font-family="DM Sans,sans-serif" font-size="11" text-anchor="middle" font-weight="500">⌨ Response</text>
+                <text x="237" y="82" fill="#64748b" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">0–1.25s</text>
+
+                <!-- Arrow -->
+                <line x1="307" y1="44" x2="330" y2="44" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowW)"/>
+
+                <!-- FIXATION -->
+                <rect x="334" y="18" width="120" height="52" rx="8" fill="#334155" stroke="#475569" stroke-width="1.5"/>
+                <text x="394" y="38" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-weight="600">FIXATION</text>
+                <text x="394" y="55" fill="#e2e8f0" font-family="DM Sans,sans-serif" font-size="11" text-anchor="middle" font-weight="500">Post-choice</text>
+                <text x="394" y="82" fill="#64748b" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">1.0s</text>
+
+                <!-- Arrow -->
+                <line x1="459" y1="44" x2="482" y2="44" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowW)"/>
+
+                <!-- WAIT (red/heart) -->
+                <rect x="486" y="14" width="130" height="60" rx="8" fill="#991b1b" stroke="#dc2626" stroke-width="1.5"/>
+                <text x="551" y="34" fill="#fca5a5" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-weight="600">❤ WAIT</text>
+                <text x="551" y="49" fill="#fecaca" font-family="DM Sans,sans-serif" font-size="9.5" text-anchor="middle">for R-peak</text>
+                <text x="551" y="63" fill="#fecaca" font-family="DM Sans,sans-serif" font-size="9.5" text-anchor="middle">+ cardiac delay</text>
+                <text x="551" y="86" fill="#64748b" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">variable</text>
+
+                <!-- Arrow -->
+                <line x1="621" y1="44" x2="644" y2="44" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrowW)"/>
+
+                <!-- FEEDBACK -->
+                <rect x="648" y="18" width="150" height="52" rx="8" fill="#065f46" stroke="#10b981" stroke-width="1.5"/>
+                <text x="723" y="35" fill="#a7f3d0" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" font-weight="600">FEEDBACK</text>
+                <text x="723" y="49" fill="#d1fae5" font-family="DM Sans,sans-serif" font-size="9" text-anchor="middle">at cardiac timing</text>
+                <text x="723" y="63" fill="white" font-family="DM Sans,sans-serif" font-size="11" text-anchor="middle" font-weight="600">Win ↑ / Loss ↓</text>
+                <text x="723" y="82" fill="#64748b" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">2.0s</text>
+
+                <!-- "Next Trial" label -->
+                <text x="820" y="48" fill="#475569" font-family="DM Sans,sans-serif" font-size="10" font-style="italic">→ Next Trial</text>
+
+                <!-- ═══ DIVIDER ═══ -->
+                <line x1="20" y1="105" x2="900" y2="105" stroke="#1e293b" stroke-width="1"/>
+
+                <!-- ─── BOTTOM SECTION: ECG + cardiac diagram ─── -->
+
+                <!-- R-peak labels -->
+                <text x="160" y="135" fill="#00e676" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="700">R-peak</text>
+                <text x="700" y="135" fill="#00e676" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="700">R-peak</text>
+
+                <!-- SYSTOLE / DIASTOLE bar -->
+                <rect x="175" y="148" width="235" height="26" rx="4" fill="rgba(220,38,38,0.25)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+                <text x="292" y="166" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="700">SYSTOLE</text>
+
+                <rect x="410" y="148" width="275" height="26" rx="4" fill="rgba(59,130,246,0.2)" stroke="rgba(59,130,246,0.35)" stroke-width="1"/>
+                <text x="547" y="166" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="700">DIASTOLE</text>
+
+                <!-- ECG waveform -->
+                <path d="M 20,240 L 100,240 120,240 130,225 140,240 152,175 164,305 176,215 186,240
+                         350,240
+                         640,240 660,240 670,225 680,240 692,175 704,305 716,215 726,240 850,240 920,240"
+                      fill="none" stroke="#00e676" stroke-width="2.5" filter="url(#glow)"/>
+
+                <!-- R-peak dots -->
+                <circle cx="158" cy="175" r="7" fill="#00e676"/>
+                <circle cx="698" cy="175" r="7" fill="#00e676"/>
+
+                <!-- Cardiac delay dashed lines from systole/diastole bar down through ECG -->
+                <!-- 6% -->
+                <line x1="192" y1="178" x2="192" y2="310" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="192" y="328" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">6%</text>
+
+                <!-- 21% -->
+                <line x1="272" y1="178" x2="272" y2="310" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="272" y="328" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">21%</text>
+
+                <!-- 36% -->
+                <line x1="352" y1="178" x2="352" y2="310" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="352" y="328" fill="#f87171" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">36%</text>
+
+                <!-- 50% -->
+                <line x1="428" y1="178" x2="428" y2="310" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="428" y="328" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">50%</text>
+
+                <!-- 70% -->
+                <line x1="536" y1="178" x2="536" y2="310" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="536" y="328" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">70%</text>
+
+                <!-- 90% -->
+                <line x1="644" y1="178" x2="644" y2="310" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="5,4"/>
+                <text x="644" y="328" fill="#60a5fa" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" font-weight="600">90%</text>
+
+                <!-- ─── Bottom: Phase boxes before ECG + Feedback box after ─── -->
+                <!-- ITI box -->
+                <rect x="20" y="350" width="68" height="26" rx="4" fill="#334155" stroke="#475569" stroke-width="1"/>
+                <text x="54" y="367" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" font-weight="600">ITI</text>
+
+                <!-- CHOICE box -->
+                <rect x="94" y="350" width="80" height="26" rx="4" fill="#a16207" stroke="#ca8a04" stroke-width="1"/>
+                <text x="134" y="367" fill="#fef9c3" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" font-weight="600">CHOICE</text>
+
+                <!-- FIX box -->
+                <rect x="180" y="350" width="52" height="26" rx="4" fill="#334155" stroke="#475569" stroke-width="1"/>
+                <text x="206" y="367" fill="#94a3b8" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" font-weight="600">FIX</text>
+
+                <!-- WAIT box -->
+                <rect x="238" y="350" width="66" height="26" rx="4" fill="#991b1b" stroke="#dc2626" stroke-width="1"/>
+                <text x="271" y="367" fill="#fca5a5" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" font-weight="600">WAIT</text>
+
+                <!-- Connecting line from WAIT to FEEDBACK DISPLAY -->
+                <line x1="304" y1="363" x2="520" y2="363" stroke="#475569" stroke-width="1" stroke-dasharray="3,3"/>
+
+                <!-- FEEDBACK DISPLAY box (at 70% mark) -->
+                <rect x="520" y="345" width="210" height="34" rx="6" fill="#065f46" stroke="#10b981" stroke-width="1.5"/>
+                <text x="576" y="366" fill="#a7f3d0" font-family="sans-serif" font-size="11" text-anchor="middle">🖥</text>
+                <text x="638" y="367" fill="white" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle" font-weight="600">FEEDBACK DISPLAY (2.0 sec)</text>
+
+                <!-- Example annotation -->
+                <text x="625" y="400" fill="#f59e0b" font-family="DM Sans,sans-serif" font-size="10" text-anchor="middle" font-style="italic">Example: Block uses diastole_mid (70%) condition (extends past next R-peak)</text>
+
+                <!-- Time arrow at very bottom -->
+                <line x1="20" y1="415" x2="880" y2="415" stroke="#475569" stroke-width="1" marker-end="url(#arrowW)"/>
+                <text x="895" y="419" fill="#64748b" font-family="DM Sans,sans-serif" font-size="10">Time →</text>
+            </svg>
+        </div>
+
+        <div class="callout callout-red">
+            <strong>❤️ Cardiac Synchronisation</strong>
+            <p>After post-choice fixation the system waits for the next R-peak, then presents feedback at a precise percentage of the <strong>current</strong> R-R interval (6 %, 21 %, 36 %, 50 %, 70 %, or 90 %) depending on the block's assigned cardiac condition.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 4. CARDIAC CONDITIONS ═══════════════════════ -->
+    <section id="cardiac">
+        <h2>4. Cardiac Timing Conditions</h2>
+        <p>Each block uses one of six cardiac timing conditions. Feedback is presented at a specific percentage of the live R-R interval following an R-peak.</p>
+
+        <div class="cardiac-grid">
+            <div class="cardiac-card">
+                <div class="cardiac-card-header systole">💓 SYSTOLE — Heart Contracting</div>
+                <div class="cardiac-card-body">
+                    <div class="timing-row"><span>Early Systole</span><span class="timing-badge sys">6 %</span></div>
+                    <div class="timing-row"><span>Mid Systole</span><span class="timing-badge sys">21 %</span></div>
+                    <div class="timing-row"><span>Late Systole</span><span class="timing-badge sys">36 %</span></div>
+                </div>
+            </div>
+            <div class="cardiac-card">
+                <div class="cardiac-card-header diastole">💙 DIASTOLE — Heart Relaxing</div>
+                <div class="cardiac-card-body">
+                    <div class="timing-row"><span>Early Diastole</span><span class="timing-badge dia">50 %</span></div>
+                    <div class="timing-row"><span>Mid Diastole</span><span class="timing-badge dia">70 %</span></div>
+                    <div class="timing-row"><span>Late Diastole</span><span class="timing-badge dia">90 %</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ECG Diagram -->
+        <div class="ecg-box">
+            <div class="ecg-label">📈 R-R Interval Timing Grid — Example: 800 ms R-R</div>
+            <svg viewBox="0 0 800 180" style="width:100%;height:auto;" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#g)"/>
+                <path d="M 0,100 L 60,100 80,100 90,85 100,100 110,45 120,155 130,80 140,100 200,100
+                         460,100 480,100 490,85 500,100 510,45 520,155 530,80 540,100 600,100 800,100"
+                      fill="none" stroke="#00e676" stroke-width="2"/>
+                <circle cx="115" cy="45" r="6" fill="#00e676"/>
+                <text x="115" y="30" fill="#00e676" font-family="monospace" font-size="10" text-anchor="middle">R</text>
+                <circle cx="515" cy="45" r="6" fill="#00e676"/>
+                <text x="515" y="30" fill="#00e676" font-family="monospace" font-size="10" text-anchor="middle">R</text>
+                <!-- Systole -->
+                <line x1="139" y1="55" x2="139" y2="160" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="139" y="175" fill="#f87171" font-family="monospace" font-size="9" text-anchor="middle">6%</text>
+                <line x1="199" y1="55" x2="199" y2="160" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="199" y="175" fill="#f87171" font-family="monospace" font-size="9" text-anchor="middle">21%</text>
+                <line x1="259" y1="55" x2="259" y2="160" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="259" y="175" fill="#f87171" font-family="monospace" font-size="9" text-anchor="middle">36%</text>
+                <!-- Diastole -->
+                <line x1="315" y1="55" x2="315" y2="160" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="315" y="175" fill="#60a5fa" font-family="monospace" font-size="9" text-anchor="middle">50%</text>
+                <line x1="395" y1="55" x2="395" y2="160" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="395" y="175" fill="#60a5fa" font-family="monospace" font-size="9" text-anchor="middle">70%</text>
+                <line x1="475" y1="55" x2="475" y2="160" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3"/>
+                <text x="475" y="175" fill="#60a5fa" font-family="monospace" font-size="9" text-anchor="middle">90%</text>
+                <!-- Labels -->
+                <rect x="130" y="55" width="140" height="18" rx="3" fill="rgba(220,38,38,0.15)"/>
+                <text x="200" y="67" fill="#f87171" font-family="monospace" font-size="9" text-anchor="middle" font-weight="bold">SYSTOLE</text>
+                <rect x="300" y="55" width="185" height="18" rx="3" fill="rgba(59,130,246,0.15)"/>
+                <text x="393" y="67" fill="#60a5fa" font-family="monospace" font-size="9" text-anchor="middle" font-weight="bold">DIASTOLE</text>
+            </svg>
+        </div>
+
+        <h3>Example Delays (R-R = 792 ms ≈ 75.8 BPM)</h3>
+        <table>
+            <thead><tr><th>Condition</th><th>Phase</th><th>% of R-R</th><th>Delay</th></tr></thead>
+            <tbody>
+                <tr><td>systole_early</td><td style="color:var(--systole);font-weight:600;">Systole</td><td>6 %</td><td><strong>47.5 ms</strong></td></tr>
+                <tr><td>systole_mid</td><td style="color:var(--systole);font-weight:600;">Systole</td><td>21 %</td><td><strong>166.3 ms</strong></td></tr>
+                <tr><td>systole_late</td><td style="color:var(--systole);font-weight:600;">Systole</td><td>36 %</td><td><strong>285.1 ms</strong></td></tr>
+                <tr><td>diastole_early</td><td style="color:var(--diastole);font-weight:600;">Diastole</td><td>50 %</td><td><strong>396.0 ms</strong></td></tr>
+                <tr><td>diastole_mid</td><td style="color:var(--diastole);font-weight:600;">Diastole</td><td>70 %</td><td><strong>554.4 ms</strong></td></tr>
+                <tr><td>diastole_late</td><td style="color:var(--diastole);font-weight:600;">Diastole</td><td>90 %</td><td><strong>712.8 ms</strong></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ═══════════════════════ 5. BLOCKS ═══════════════════════ -->
+    <section id="blocks">
+        <h2>5. Block Structure &amp; Reversals</h2>
+        <p>Six blocks, each assigned one cardiac condition. Order is <strong>randomised</strong> per participant.</p>
+
+        <div class="block-row">
+            <div class="block-chip"><div class="block-chip-header sys">Block 1</div><div class="block-chip-body">Systole Early<span class="pct sys-text">6 %</span></div></div>
+            <div class="block-chip"><div class="block-chip-header sys">Block 2</div><div class="block-chip-body">Systole Mid<span class="pct sys-text">21 %</span></div></div>
+            <div class="block-chip"><div class="block-chip-header sys">Block 3</div><div class="block-chip-body">Systole Late<span class="pct sys-text">36 %</span></div></div>
+            <div class="block-chip"><div class="block-chip-header dia">Block 4</div><div class="block-chip-body">Diastole Early<span class="pct dia-text">50 %</span></div></div>
+            <div class="block-chip"><div class="block-chip-header dia">Block 5</div><div class="block-chip-body">Diastole Mid<span class="pct dia-text">70 %</span></div></div>
+            <div class="block-chip"><div class="block-chip-header dia">Block 6</div><div class="block-chip-body">Diastole Late<span class="pct dia-text">90 %</span></div></div>
+        </div>
+
+        <h3>Probability Reversal</h3>
+        <p>Each block contains a <strong>probability reversal</strong> at the midpoint (trial 35 ± 2). This tests the participant's ability to adapt to changing contingencies.</p>
+
+        <div class="reversal-bar">
+            <div class="reversal-half reversal-pre">Pre-Reversal (~35 trials) — A: 70 % win</div>
+            <div class="reversal-half reversal-post">Post-Reversal (~35 trials) — A: 30 % win</div>
+        </div>
+
+        <table>
+            <thead><tr><th>Phase</th><th>Symbol A Win %</th><th>Symbol B Win %</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Pre-Reversal</strong> (trials 1–~35)</td><td style="color:var(--green);font-weight:600;">70 % (Good)</td><td style="color:var(--accent);font-weight:600;">30 % (Bad)</td></tr>
+                <tr><td><strong>Post-Reversal</strong> (~35–70)</td><td style="color:var(--accent);font-weight:600;">30 % (Bad)</td><td style="color:var(--green);font-weight:600;">70 % (Good)</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ═══════════════════════ 6. R-R ═══════════════════════ -->
+    <section id="rr">
+        <h2>6. R-R Interval — Live Updating Mechanism</h2>
+        <p>The R-R interval is <strong>continuously updated</strong> using a rolling window of the last 5 valid R-R intervals. Only intervals between 0.6 s and 1.2 s (50–100 BPM) are accepted.</p>
+
+        <div class="callout callout-purple">
+            <strong>Formula</strong>
+            <p style="font-family:'JetBrains Mono',monospace; font-size:0.9rem;">
+                current_rr = mean(last 5 valid R-R intervals)<br>
+                cardiac_delay = current_rr × condition_percentage
+            </p>
+        </div>
+
+        <div class="callout callout-teal">
+            <strong>💡 Why Live Updating?</strong>
+            <p>Heart rate varies naturally due to arousal, fatigue, and task engagement. A running average keeps the cardiac timing accurately calibrated to the participant's <strong>current</strong> cardiac state.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 7. LSL MARKERS ═══════════════════════ -->
+    <section id="lsl">
+        <h2>7. LSL Marker Reference</h2>
+        <p>Lab Streaming Layer markers sent at key events for synchronisation with EEG recording.</p>
+
+        <table>
+            <thead><tr><th>Event</th><th>Marker Code</th><th>When Sent</th></tr></thead>
+            <tbody>
+                <tr><td>Experiment Start</td><td><code>exp_start</code></td><td>Beginning of experiment</td></tr>
+                <tr><td>Experiment End</td><td><code>exp_end</code></td><td>End of experiment</td></tr>
+                <tr><td>Block Start</td><td><code>block_start</code></td><td>Beginning of each block</td></tr>
+                <tr><td>Block End</td><td><code>block_end</code></td><td>End of each block</td></tr>
+                <tr><td>Trial Start</td><td><code>trial_start</code></td><td>Beginning of each trial</td></tr>
+                <tr><td>Choice Made</td><td><code>choice_made</code></td><td>Participant button press</td></tr>
+                <tr><td>Feedback Onset</td><td><code>feedback_onset</code></td><td>Feedback display (cardiac-locked)</td></tr>
+                <tr><td>Win Feedback</td><td><code>feedback_win</code></td><td>Win arrow displayed</td></tr>
+                <tr><td>Loss Feedback</td><td><code>feedback_loss</code></td><td>Loss arrow displayed</td></tr>
+                <tr><td>Timeout</td><td><code>timeout</code></td><td>No response within time limit</td></tr>
+                <tr><td>Reversal</td><td><code>reversal</code></td><td>Probability reversal point</td></tr>
+                <tr><td>Break Start</td><td><code>break_start</code></td><td>Beginning of rest period</td></tr>
+                <tr><td>Break End</td><td><code>break_end</code></td><td>End of rest period</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ═══════════════════════ 8. PARAMS ═══════════════════════ -->
+    <section id="params">
+        <h2>8. Technical Parameters</h2>
+        <table>
+            <thead><tr><th>Parameter</th><th>Value</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td>Trials per Block</td><td><strong>70</strong></td><td>Fixed</td></tr>
+                <tr><td>Number of Blocks</td><td><strong>6</strong></td><td>One per cardiac condition</td></tr>
+                <tr><td>Total Trials</td><td><strong>420</strong></td><td>6 × 70</td></tr>
+                <tr><td>Decision Duration</td><td>1.25 s</td><td>Max response time</td></tr>
+                <tr><td>ITI Range</td><td>1.0 – 1.5 s</td><td>Uniform random</td></tr>
+                <tr><td>Post-Choice Fixation</td><td>1.0 s</td><td>Fixed</td></tr>
+                <tr><td>Feedback Duration</td><td>2.0 s</td><td>Fixed</td></tr>
+                <tr><td>Win Probability (Good)</td><td>70 %</td><td>Optimal symbol</td></tr>
+                <tr><td>Win Probability (Bad)</td><td>30 %</td><td>Suboptimal symbol</td></tr>
+                <tr><td>Valid R-R Range</td><td>0.6 – 1.2 s</td><td>50–100 BPM</td></tr>
+                <tr><td>R-R Rolling Window</td><td>5 intervals</td><td>Rolling average</td></tr>
+                <tr><td>Monitor Refresh Delay</td><td>9 ms</td><td>120 Hz compensation</td></tr>
+                <tr><td>Cardiac Sync Timeout</td><td>3.0 s</td><td>Max R-peak wait</td></tr>
+                <tr><td>Break Duration</td><td>≤ 2 min</td><td>5 breaks total between blocks</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ═══════════════════════ 9. CONDUCTOR'S GUIDE ═══════════════════════ -->
+    <section id="conductor">
+        <h2>9. Conductor's Guide — Step by Step</h2>
+        <p>Complete instructions for a co-worker running the experiment. Follow every step in order.</p>
+
+        <h3>A. Pre-Session Setup (≈ 15 min before participant arrives)</h3>
+        <ol class="step-list">
+            <li>
+                <strong>Boot all 3 PCs</strong>
+                PC-1 (Task / PsychoPy), PC-2 (EEG / BrainVision Recorder), PC-3 (Real-time R-peak detection). Confirm all are on the local network.
+            </li>
+            <li>
+                <strong>Launch BrainVision Recorder on PC-2</strong>
+                Open the workspace file. Confirm the correct montage is loaded (passiveCap64 + ECG). Do <em>not</em> start recording yet.
+            </li>
+            <li>
+                <strong>Start the LSL streams</strong>
+                Run the LSL setup script on PC-3. Verify that the LSL stream is discoverable from PC-1 (use <code>pylsl.resolve_streams()</code>).
+            </li>
+            <li>
+                <strong>Launch the real-time R-peak detection script on PC-3</strong>
+                Confirm the console shows incoming ECG samples and detected R-peaks.
+            </li>
+            <li>
+                <strong>Prepare the EEG cap</strong>
+                Fill gel syringes, prepare abrasive gel, set out electrode cap (size M or L based on participant head size), and prepare the ECG electrode + tape.
+            </li>
+        </ol>
+
+        <h3>B. Participant Arrival &amp; EEG Setup (≈ 45 min)</h3>
+        <ol class="step-list">
+            <li>
+                <strong>Welcome &amp; consent</strong>
+                Greet the participant, explain the study verbally, and obtain signed informed consent. Answer any questions.
+            </li>
+            <li>
+                <strong>Measure head &amp; fit EEG cap</strong>
+                Measure nasion-to-inion and pre-auricular distances. Place cap so Cz is at the measured midpoint. Secure chin strap.
+            </li>
+            <li>
+                <strong>Apply ECG electrode</strong>
+                Place the single ECG electrode on the left back shoulder blade. Secure with medical tape. Confirm signal in BrainVision Recorder.
+            </li>
+            <li>
+                <strong>Gel all 63 EEG electrodes</strong>
+                Target impedance ≤ 10 kΩ for all channels. Use abrasive gel first, then conductive gel. Check impedance map in Recorder.
+            </li>
+            <li>
+                <strong>Verify signals</strong>
+                Check that all channels show clean EEG signals. Ask participant to blink, clench jaw — confirm artefact patterns are visible (signals are live).
+            </li>
+        </ol>
+
+        <h3>C. Running the Experiment</h3>
+        <ol class="step-list">
+            <li>
+                <strong>Seat participant at task PC (PC-1)</strong>
+                Position at comfortable distance from monitor. Provide response buttons (left / right). Ensure room lights are dimmed.
+            </li>
+            <li>
+                <strong>Start EEG recording on PC-2</strong>
+                Press Record in BrainVision Recorder. Note the filename and start time.
+            </li>
+            <li>
+                <strong>Confirm R-peak stream</strong>
+                On PC-3, verify R-peak detection console shows stable heartbeat (~60–100 BPM). Check that LSL stream is active.
+            </li>
+            <li>
+                <strong>Launch the task script on PC-1</strong>
+                Run the PsychoPy task script. Enter participant ID and session number. The script will auto-randomise block order.
+            </li>
+            <li>
+                <strong>Participant does practice block</strong>
+                Supervise the practice trials (if any). Answer questions. Confirm participant understands the task.
+            </li>
+            <li>
+                <strong>Main experiment runs (6 blocks × 70 trials)</strong>
+                Monitor EEG quality and R-peak detection throughout. During breaks, check impedances if needed.
+            </li>
+            <li>
+                <strong>Experiment ends</strong>
+                Task script displays completion message. Stop EEG recording on PC-2.
+            </li>
+        </ol>
+
+        <h3>D. Post-Session</h3>
+        <ol class="step-list">
+            <li>
+                <strong>Remove EEG cap &amp; ECG electrode</strong>
+                Carefully remove cap. Offer participant towel and access to hair-washing facilities.
+            </li>
+            <li>
+                <strong>Debrief &amp; payment</strong>
+                Brief debrief. Process payment (£10/hr + bonus). Have participant sign payment receipt.
+            </li>
+            <li>
+                <strong>Save &amp; back up data</strong>
+                Verify all data files are saved: EEG (.eeg, .vhdr, .vmrk), behavioural CSV, LSL log. Copy to backup drive.
+            </li>
+            <li>
+                <strong>Clean equipment</strong>
+                Clean EEG cap (warm water + mild soap), dry electrodes. Sanitise response buttons. Prepare for next session.
+            </li>
+        </ol>
+
+        <h3>E. Pre-Session Checklist</h3>
+        <ul class="checklist">
+            <li>Consent forms printed</li>
+            <li>Payment receipts ready</li>
+            <li>EEG cap cleaned &amp; dried from previous session</li>
+            <li>Gel syringes filled (conductive + abrasive)</li>
+            <li>ECG electrodes &amp; medical tape available</li>
+            <li>All 3 PCs booted and on network</li>
+            <li>BrainVision Recorder workspace loaded</li>
+            <li>LSL stream discoverable from PC-1</li>
+            <li>R-peak detection script running and stable</li>
+            <li>Participant response buttons tested</li>
+            <li>Room lighting dimmed</li>
+            <li>Backup drive accessible</li>
+        </ul>
+    </section>
+
+    <!-- ═══════════════════════ 10. SCRIPTS ═══════════════════════ -->
+    <section id="scripts">
+        <h2>10. Scripts Reference</h2>
+        <p>All scripts required for running the experiment. Each section contains the full code or a placeholder to be filled in.</p>
+
+        <h3>10.1 Task Script (PsychoPy — PC-1)</h3>
+        <p>The main experiment script that controls stimulus presentation, response collection, and cardiac-locked feedback timing.</p>
+        <div class="code-placeholder">
+            <div class="ph-icon">🧪</div>
+            <div class="ph-title">task_cardiac_reversal.py</div>
+            <div class="ph-desc">PsychoPy task script — placeholder: to be added</div>
+        </div>
+
+        <h3>10.2 Real-Time R-Peak Detection (PC-3)</h3>
+        <p>Receives ECG data via LSL, detects R-peaks in real-time, and broadcasts R-peak events back over LSL for the task script to consume.</p>
+        <div class="code-placeholder">
+            <div class="ph-icon">❤️</div>
+            <div class="ph-title">realtime_rpeak_detection.py</div>
+            <div class="ph-desc">Real-time R-peak detector — placeholder: to be added</div>
+        </div>
+
+        <h3>10.3 LSL Setup &amp; Stream Configuration (PC-3)</h3>
+        <p>Initialises the Lab Streaming Layer streams for EEG markers and R-peak events. Must be started before the task script.</p>
+        <div class="code-placeholder">
+            <div class="ph-icon">📡</div>
+            <div class="ph-title">lsl_setup.py</div>
+            <div class="ph-desc">LSL stream initialisation — placeholder: to be added</div>
+        </div>
+
+        <h3>10.4 BrainVision Recorder Configuration</h3>
+        <p>Workspace settings, montage file, and recording parameters for the 64-channel EEG + ECG setup.</p>
+        <div class="code-placeholder">
+            <div class="ph-icon">🧠</div>
+            <div class="ph-title">BrainVision Recorder Settings</div>
+            <div class="ph-desc">Recorder workspace &amp; montage config — placeholder: to be added</div>
+        </div>
+
+        <h3>10.5 Data Verification Script</h3>
+        <p>Quick post-session script to verify data integrity: checks trial counts, marker alignment, and file completeness.</p>
+        <div class="code-placeholder">
+            <div class="ph-icon">✅</div>
+            <div class="ph-title">verify_session_data.py</div>
+            <div class="ph-desc">Post-session data checker — placeholder: to be added</div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 11. TROUBLESHOOTING ═══════════════════════ -->
+    <section id="troubleshooting">
+        <h2>11. Troubleshooting</h2>
+
+        <h3>Common Issues</h3>
+        <table>
+            <thead><tr><th>Problem</th><th>Likely Cause</th><th>Solution</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><strong>No R-peaks detected</strong></td>
+                    <td>ECG electrode not making contact; gel dried out</td>
+                    <td>Re-apply gel under ECG electrode. Check cable connection.</td>
+                </tr>
+                <tr>
+                    <td><strong>LSL stream not found from PC-1</strong></td>
+                    <td>Firewall blocking; PCs not on same subnet</td>
+                    <td>Disable firewall on all PCs. Verify IP addresses are on same network.</td>
+                </tr>
+                <tr>
+                    <td><strong>High impedance on many channels</strong></td>
+                    <td>Insufficient gel; cap shifted</td>
+                    <td>Re-gel affected channels. Check cap position hasn't moved.</td>
+                </tr>
+                <tr>
+                    <td><strong>Task script freezes at cardiac sync</strong></td>
+                    <td>R-peak stream dropped; timeout exceeded</td>
+                    <td>Restart R-peak detection on PC-3. Check ECG signal quality.</td>
+                </tr>
+                <tr>
+                    <td><strong>Irregular R-R intervals</strong></td>
+                    <td>Participant movement; double-detections</td>
+                    <td>Ask participant to relax and stay still. Check detection threshold.</td>
+                </tr>
+                <tr>
+                    <td><strong>Marker timing offset between PCs</strong></td>
+                    <td>Clock drift between machines</td>
+                    <td>LSL handles synchronisation. Verify LSL clock offsets in post-processing.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-amber">
+            <strong>⚠️ Emergency: If participant reports discomfort</strong>
+            <p>Stop the experiment immediately. Remove the EEG cap if requested. Do not continue until the participant confirms they are comfortable and wish to proceed.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 12. RECRUITMENT ═══════════════════════ -->
+    <section id="recruitment">
+        <h2>12. Participant Recruitment</h2>
+        <p>The recruitment advertisement for this study is available as a separate web page:</p>
+
+        <a href="Participant_Recruitment_Ad_Final.html" class="link-banner" target="_blank">
+            <span class="icon">📋</span>
+            <span class="text">
+                <strong>Participant Recruitment Advertisement</strong>
+                <span>Brain, Heart &amp; Decision-Making Study — click to view</span>
+            </span>
+        </a>
+
+        <h3>Eligibility Criteria</h3>
+        <ul>
+            <li>Aged 18 years or older</li>
+            <li>Normal or corrected-to-normal vision</li>
+            <li>No history of neurological disorders</li>
+            <li>No history of cardiovascular disorders</li>
+        </ul>
+
+        <h3>Compensation</h3>
+        <p><strong>£10 per hour</strong> + up to <strong>£15 performance bonus</strong> (total ≈ £20–£35).</p>
+
+        <h3>Contact</h3>
+        <p>
+            <strong>Dr Hamed Ghane</strong><br>
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4028212d25246e2728212e25332133212e33213221252900272c2133272f376e21236e352b">[email&#160;protected]</a><br>
+            Centre for Cognitive Neuroimaging (CCNi), 62 Hillhead Street
+        </p>
+    </section>
+
+    <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+    <footer>
+        <p><strong>Author:</strong> Hamed Ghane &nbsp;|&nbsp; <strong>Date:</strong> February 11, 2026</p>
+        <p>Based on methodology from Fouragnan et al. (2024) <em>Nature C
